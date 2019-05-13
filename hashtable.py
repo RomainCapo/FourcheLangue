@@ -58,8 +58,8 @@ class HashTable:
 
         
 
-french_path = "C:/Users/Romain/Desktop/He-Arc/Algorithme/projetalgo/dict/french.txt"
-#french_path = "dict/french.txt"
+#french_path = "C:/Users/Romain/Desktop/He-Arc/Algorithme/projetalgo/dict/french.txt"
+french_path = "dict/french.txt"
 
 t = HashTable()
 t.generateHashTable(french_path)
