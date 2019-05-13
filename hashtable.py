@@ -7,12 +7,13 @@ INF2dlm-a
 2018-2019
 """
 import os.path
+import shutil
 import json
 
 class HashTable:
-    def __init__(self):
-        self.words = []
+    def __init__(self, lang):
         self.hashtable = []
+        self.lang = lang
 
     def djb2(self, string):
         hash = 0 
@@ -29,41 +30,45 @@ class HashTable:
             i = i + 1
         return hash % self.length 
 
-    def _openFile(self, filename, mode):
-        if os.path.exists(filename):
-            return open(filename, mode)
-
     def _initList(self):
         self.hashtable = [[] for x in range(self.length)]
 
     def generateHashTable(self, filename):
-            f = self._openFile(filename, 'r')
+
+        if os.path.exists(filename):
+            f = open(filename, 'r')
             reader = f.read().splitlines()
             self.length = len(reader) * 2
             self._initList()
-            print(self.length)
 
             for word in reader:
                 hash = self.fn(word)
-                print("word : " + word + ", hash : " + str(hash))
-                
                 self.hashtable[hash].append(word)
 
-    def exportHashTable(self, filename):
-        f = self._openFile(filename, 'w')
-        out = {}       
+    def exportHashTable(self, folder):
+        out = {}
+        for  hash, listWord in enumerate(self.hashtable):
+            out[hash] = []
+            for iList in range(len(listWord)):
+                out[hash].append(listWord[iList])
+
+        if not os.path.exists(folder):
+            os.makedirs(folder)
         
-        print(out)
-            
+        with open(folder + "/" + self.lang + ".json", 'w') as outfile:
+            json.dump(out, outfile)
 
-        
+def deleteFolder(folder):
+    if os.path.exists(folder):
+        shutil.rmtree(folder)
 
-#french_path = "C:/Users/Romain/Desktop/He-Arc/Algorithme/projetalgo/dict/french.txt"
-french_path = "dict/french.txt"
+if __name__ == "__main__":
+    dictPaths = [("french", "dict/french.txt"), ("english", "dict/english.txt")]  
+    exportFolderPath = "hash"      
 
-t = HashTable()
-t.generateHashTable(french_path)
+    deleteFolder(exportFolderPath)
 
-print(t.hashtable)
-
-t.exportHashTable('fes.txt')
+    for i in range(len(dictPaths)):
+        h = HashTable(dictPaths[i][0])
+        h.generateHashTable(dictPaths[i][1])
+        h.exportHashTable(exportFolderPath)
