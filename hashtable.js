@@ -1,19 +1,35 @@
+
+
 class HashTable{
   constructor(){
-    let array = ['3', '4', '5', '6'];
-    let length = array.length * 2;
+    this.json;
   }
 
-  fn(cle){
-    let hash = 0;
-    do {
-      hash += cle.charCodeAt()%this.length;
-      console.log(hash);
+readTextFile(file)
+{
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+                var allText = rawFile.responseText;
+                console.log(JSON.parse(allText));
+            }
+        }
+    }
+    rawFile.send(null);
+}
 
-      cle = cle.slice(0, cle.length-1);
-      console.log(cle);
-    } while (cle.length > 0);
-    return hash%this.length;
+  fn(string){
+    let hash = 0;
+    const C = 42;
+    for(let i = 0; i < string.length; i++){
+      hash += string.charCodeAt(i) * Math.pow(C,i)
+    }
+    return hash % this.hashTableLength
   }
 
   test(){

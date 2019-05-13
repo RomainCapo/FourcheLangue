@@ -47,20 +47,29 @@ class HashTable:
 
     def exportHashTable(self, folder):
         out = {}
+        out["hashtable"] = {}
         for  hash, listWord in enumerate(self.hashtable):
-            out[hash] = []
+            out["hashtable"][hash] = []
             for iList in range(len(listWord)):
-                out[hash].append(listWord[iList])
-
+                out["hashtable"][hash].append(listWord[iList])
+        out['length'] = self.length
         if not os.path.exists(folder):
             os.makedirs(folder)
-        
         with open(folder + "/" + self.lang + ".json", 'w') as outfile:
             json.dump(out, outfile)
 
 def deleteFolder(folder):
     if os.path.exists(folder):
         shutil.rmtree(folder)
+
+def fn(string):
+    hash = 0
+    i = 0
+    c = 42
+    for x in string:
+        hash = hash + (ord(x) * (c**i))
+        i = i + 1
+    return hash % 20
 
 if __name__ == "__main__":
     dictPaths = [("french", "dict/french.txt"), ("english", "dict/english.txt")]  
@@ -72,3 +81,5 @@ if __name__ == "__main__":
         h = HashTable(dictPaths[i][0])
         h.generateHashTable(dictPaths[i][1])
         h.exportHashTable(exportFolderPath)
+
+    
