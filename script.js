@@ -6,7 +6,7 @@
 * Projet cours d'algorithme
 */
 
-let hashFilePaths = [['french', 'hash/french.json'], ['english','hash/english.json'], ['deutsch','hash/deutsch.json'], ['italiano', 'hash/italiano.json'], ['spain', 'hash/espagnol.json'], ['denmark', 'hash/dansk.json'], ['norsk', 'hash/norsk.json']];
+let hashFilePaths = [['french', 'hash/french.json'], ['english','hash/english.json'], ['deutsch','hash/deutsch.json'], ['italiano', 'hash/italiano.json'], ['spain', 'hash/espanol.json'], ['denmark', 'hash/dansk.json'], ['norsk', 'hash/norsk.json']];
 
 let hashtables = [];
 let lang = [];
@@ -15,8 +15,6 @@ hashFilePaths.forEach(function(e){
   hashtables[e[0]] = new HashTable(e[1]);
   lang[e[0]] = 0;
 })
-//console.log(hashtables);
-//console.log(lang);
 
 
 function init() {
@@ -31,14 +29,16 @@ function getContent() {
   let values_clear = values.replace(regex, '');
   let values_list = values_clear.split(' ');
 
-  //document.getElementById("value").innerHTML = values_list;
-
   findLang(values_list);
 }
 
 function changeImg(language) {
 	document.getElementById("language_infos").style.visibility = "visible";
 	document.getElementById("img_lang").src="flags/" + language + ".png";
+}
+
+function removeImg() {
+	document.getElementById("language_infos").style.visibility = "hidden";
 }
 
 function findLang(values_list) {
@@ -54,12 +54,17 @@ function findLang(values_list) {
 	 	}
 	}
 	
-	console.log(lang);
+	//console.log(lang);
 
 	chooseLang(lang);
 }
 
 function chooseLang(lang) {
+
 	let key = Object.keys(lang).reduce(function(a, b){ return lang[a] > lang[b] ? a : b });
-	changeImg(key);
+	if(lang[key] >= 4) {
+		changeImg(key);
+	} else {
+		removeImg();
+	}
 }
