@@ -11,7 +11,6 @@ class HashTable{
     this.json = JSON.parse(this._readJsonFile(path));
     this.hashtable = this.json.hashtable;
     this.hashTablLength = parseInt(this.json.length);
-    console.log(this.hashtable);
   }
 
   wordInHashTable(word){
