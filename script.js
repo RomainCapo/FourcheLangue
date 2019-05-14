@@ -63,6 +63,3 @@ function chooseLang(lang) {
 	let key = Object.keys(lang).reduce(function(a, b){ return lang[a] > lang[b] ? a : b });
 	changeImg(key);
 }
-
-
-
