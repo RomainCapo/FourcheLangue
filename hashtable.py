@@ -99,7 +99,7 @@ def deleteFolder(folder):
 
 
 if __name__ == "__main__":
-    dictPaths = [("french", "dict/francais.txt"), ("english", "dict/english.txt"), ("deutsch", "dict/deutsch.txt"), ("italiano", "dict/italiano.txt")]
+    dictPaths = [("french", "dict/french.txt"), ("english", "dict/english.txt"), ("deutsch", "dict/deutsch.txt"), ("italiano", "dict/italiano.txt"), ("espanol", "dict/espanol.txt"), ("norsk", "dict/norsk.txt"), ("dansk", "dict/dansk.txt")]
     exportFolderPath = "hash"
 
     deleteFolder(exportFolderPath)
