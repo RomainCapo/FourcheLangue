@@ -1,2 +1,2 @@
 let ht = new HashTable();
-console.log(ht.fn());
+console.log(ht.readTextFile('hash/french.json'));
