@@ -6,13 +6,25 @@
 * Projet cours d'algorithme
 */
 
+/**
+ * Represente une table de hachage
+ */
 class HashTable{
+  /**
+   * constructeur de la table de hachage, on recupère la table de hahchage et la taille de la table a partir du fichier JSON
+   * @param {String} path chemin relatif où se trouve la table de hachage au format JSON
+   */
   constructor(path){
     this.json = JSON.parse(this._readJsonFile(path));
     this.hashtable = this.json.hashtable;
     this.hashTablLength = parseInt(this.json.length);
   }
 
+  /**
+   * indique si le mot passé en parametre est dans la table de hachage
+   * @param  {String} word mot a traité
+   * @return {Boolean}      indique si le mot est dans la table de hachage ou non
+   */
   wordInHashTable(word){
     let hash = this.fn(word);
 
@@ -25,11 +37,16 @@ class HashTable{
     }
   }
 
-  _readJsonFile(file)
+/**
+ * lit le contenu du fichier JSON
+ * @param  {String} path chemin relatif où se trouve la table de hachage au format JSON
+ * @return {String}      contenu du fichier JSON sous forme de texte
+ */
+  _readJsonFile(path)
   {
       let allText
       var rawFile = new XMLHttpRequest();
-      rawFile.open("GET", file, false);
+      rawFile.open("GET", path, false);
       rawFile.overrideMimeType('application/json');
       rawFile.onreadystatechange = function ()
       {
@@ -45,6 +62,11 @@ class HashTable{
       return allText;
   }
 
+/**
+ * fonction de hachage
+ * @param  {String}   string mot a passer dans la fonction de hachage
+ * @return {Integer}        hash du mot passé en parametre
+ */
   fn(string){
     let hash = 0;
     const C = 42;

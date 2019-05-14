@@ -42,7 +42,7 @@ function changeImg(language) {
 	    document.getElementById("img_lang").src="flags/french.png";
 	    break;
 	  default:
-	} 
+	}
 }
 
 
@@ -59,5 +59,3 @@ function changeImg(language) {
 	console.log(hashtables);
 	console.log(lang);
 })();
-
-
