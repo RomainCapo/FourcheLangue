@@ -46,15 +46,24 @@ class HashTable:
                 self.hashtable[hash].append(word)
 
     def exportHashTable(self, folder):
-        out = {}
+        """out = {}
         out["hashtable"] = {}
         for  hash, listWord in enumerate(self.hashtable):
             out["hashtable"][hash] = []
             for iList in range(len(listWord)):
-                out["hashtable"][hash].append(listWord[iList])
+                out["hashtable"][hash].append(listWord[iList])"""
+
+        out = {}
+        out["hashtable"] = []
+        for hash, listWord in enumerate(self.hashtable):
+            for iList in range(len(listWord)):
+                out["hashtable"].append(listWord[iList])
+
         out['length'] = self.length
+
         if not os.path.exists(folder):
             os.makedirs(folder)
+
         with open(folder + "/" + self.lang + ".json", 'w') as outfile:
             json.dump(out, outfile)
 
