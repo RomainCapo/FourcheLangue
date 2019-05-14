@@ -1,0 +1,10 @@
+computer
+apple
+bottle
+screen
+deep
+folder
+path
+glass
+window
+remote

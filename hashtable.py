@@ -9,6 +9,7 @@ INF2dlm-a
 import os.path
 import shutil
 import json
+import io
 
 class HashTable:
     def __init__(self, lang):
@@ -36,7 +37,7 @@ class HashTable:
     def generateHashTable(self, filename):
 
         if os.path.exists(filename):
-            f = open(filename, 'r')
+            f =  io.open(filename, 'r', encoding='latin-1')
             reader = f.read().splitlines()
             self.length = len(reader) * 2
             self._initList()
@@ -46,26 +47,19 @@ class HashTable:
                 self.hashtable[hash].append(word)
 
     def exportHashTable(self, folder):
-        """out = {}
-        out["hashtable"] = {}
-        for  hash, listWord in enumerate(self.hashtable):
-            out["hashtable"][hash] = []
-            for iList in range(len(listWord)):
-                out["hashtable"][hash].append(listWord[iList])"""
-
         out = {}
         out["hashtable"] = []
-        for hash, listWord in enumerate(self.hashtable):
-            for iList in range(len(listWord)):
-                out["hashtable"].append(listWord[iList])
+
+        for listWord in self.hashtable:
+            out["hashtable"].append(listWord)
 
         out['length'] = self.length
 
         if not os.path.exists(folder):
             os.makedirs(folder)
 
-        with open(folder + "/" + self.lang + ".json", 'w') as outfile:
-            json.dump(out, outfile)
+        with io.open(folder + "/" + self.lang + ".json", 'w', encoding='utf8') as outfile:
+            json.dump(out, outfile, ensure_ascii=False)
 
 def deleteFolder(folder):
     if os.path.exists(folder):
@@ -81,7 +75,7 @@ def fn(string):
     return hash % 20
 
 if __name__ == "__main__":
-    dictPaths = [("french", "dict/french.txt"), ("english", "dict/english.txt")]  
+    dictPaths = [("french", "dict/francais.txt"), ("english", "dict/english.txt"), ("deutsch", "dict/deutsch.txt"), ("italiano", "dict/italiano.txt")]  
     exportFolderPath = "hash"      
 
     deleteFolder(exportFolderPath)
@@ -90,5 +84,5 @@ if __name__ == "__main__":
         h = HashTable(dictPaths[i][0])
         h.generateHashTable(dictPaths[i][1])
         h.exportHashTable(exportFolderPath)
+        print("export finished for " + dictPaths[i][0])
 
-    
