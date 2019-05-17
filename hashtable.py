@@ -31,6 +31,9 @@ class HashTable:
         """
         self.hashtable = []
         self.lang = lang
+        self.nbCollision = 0
+        self.hasList = []
+        self.fillingRate = 0
 
     def fn(self, string):
         """
@@ -65,9 +68,25 @@ class HashTable:
             self.length = len(reader) * 2
             self._initList()
 
+            self.hasList = [0 for x in range(self.length)]
+
             for word in reader:
                 hash = self.fn(word)
                 self.hashtable[hash].append(word)
+
+                #Calcule des collisions
+                if len(self.hashtable[hash]) > 1:
+                    self.nbCollision +=1
+
+                #Calcule du taux de remplissage
+                self.hasList[hash] = 1            
+            
+            nbList = self.hasList.count(1)
+            self.fillingRate = float("%.2f" % ((nbList / self.length) * 100))
+
+        else:
+            print("File not found")
+            sys.exit(-1)
 
     def exportHashTable(self, folder):
         """
@@ -82,6 +101,8 @@ class HashTable:
             out["hashtable"].append(listWord)
 
         out['length'] = self.length
+        out['nbCollision'] = self.nbCollision
+        out['fillingRate'] = self.fillingRate
 
         if not os.path.exists(folder):
             os.makedirs(folder)

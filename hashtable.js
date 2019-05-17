@@ -17,7 +17,9 @@ class HashTable{
   constructor(path){
     this.json = JSON.parse(this._readJsonFile(path));
     this.hashtable = this.json.hashtable;
-    this.hashTablLength = parseInt(this.json.length);
+    this.hashTableLength = parseInt(this.json.length);
+    this.nbCollision = parseInt(this.json.nbCollision);
+    this.fillingRate = parseFloat(this.json.fillingRate);
   }
 
   /**
@@ -28,7 +30,7 @@ class HashTable{
   wordInHashTable(word){
     let hash = this.fn(word);
 
-    if(hash <= this.hashTablLength){
+    if(hash <= this.hashTableLength){
       let listWord = this.hashtable[hash];
 
       return listWord.includes(word);
@@ -73,10 +75,42 @@ class HashTable{
     for(let i = 0; i < string.length; i++){
       hash += string.charCodeAt(i) * Math.pow(C,i)
     }
-    return hash % this.hashTablLength;
+    return hash % this.hashTableLength;
   }
 
-  test(){
-    return "A".charCodeAt();
+  /**
+   * Tire un certains nombres de mot de la table de hachage de maniere aléatoire
+   * @param  {Integer} nbWord nombre de mot a tirer
+   * @return {Array}        retourne un tableau avec le nombre de mot demandé
+   */
+  drawRandomWord(nbWord){
+    let words = []
+    while(words.length <= nbWord){
+      let random = Math.floor((Math.random() * this.hashTableLength) - 1);
+      //console.log(random);
+      if(this.hashtable[random].length > 0){
+        this.hashtable[random].forEach(function(e){
+          words.push(e);
+        });
+      }
+    }
+    return words;
+  }
+
+  /**
+   * Calcule le temps d'accè moyen pour une table de hachage
+   * @return {Float} temps moyen d'accès de la table de hachage
+   */
+  getAverageAcessTime(){
+    let words = this.drawRandomWord(20000);
+    let totalTime = 0;
+    words.forEach((e) =>{
+      let t0 = performance.now();
+      let hash = this.fn(e);
+      this.hashtable[hash];
+      let t1 = performance.now();
+      totalTime += (t1 - t0);
+    }, this);
+    return totalTime / words.length;
   }
 }

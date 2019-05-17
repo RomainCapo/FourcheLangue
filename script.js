@@ -16,6 +16,7 @@ hashFilePaths.forEach(function(e){
   lang[e[0]] = 0;
 })
 
+console.log(hashtables.french.getAverageAcessTime());
 
 function init() {
   document.getElementById("language_infos").style.visibility = "hidden";
@@ -29,8 +30,11 @@ function getContent() {
   let values_clear = values.replace(regex, '');
   let values_list = values_clear.split(' ');
 
+
   findLang(values_list);
 }
+
+
 
 function changeImg(language) {
 	document.getElementById("language_infos").style.visibility = "visible";
@@ -53,7 +57,7 @@ function findLang(values_list) {
 		 	}
 	 	}
 	}
-	
+
 	//console.log(lang);
 
 	chooseLang(lang);
