@@ -10,6 +10,7 @@ import os.path
 import shutil
 import json
 import io
+import sys
 
 class HashTable:
     """
@@ -99,8 +100,34 @@ def deleteFolder(folder):
 
 
 if __name__ == "__main__":
-    dictPaths = [("french", "dict/french.txt"), ("english", "dict/english.txt"), ("deutsch", "dict/deutsch.txt"), ("italiano", "dict/italiano.txt"), ("espanol", "dict/espanol.txt"), ("norsk", "dict/norsk.txt"), ("dansk", "dict/dansk.txt")]
+    usage = """
+    hashtable.py <export_folder> <dict_name_and_path>
+
+    <export_folder> : path of the export folder
+    <dict_name_and_path> : <lang>;<path>
+
+    For default parameter, do not specify any arguments
+    """ 
+
+    #default parameters
     exportFolderPath = "hash"
+    dictPaths = [("french", "dict/french.txt"), ("english", "dict/english.txt"), ("deutsch", "dict/deutsch.txt"), ("italiano", "dict/italiano.txt"), ("espanol", "dict/espanol.txt"), ("norsk", "dict/norsk.txt"), ("dansk", "dict/dansk.txt")]
+
+    if len(sys.argv) == 2:
+        exportFolderPath = sys.argv[1]
+
+    if len(sys.argv) > 2:
+        dictPaths.clear()
+
+        for i in range(len(sys.argv)):
+            if i != 0 and i!= 1:
+                res = sys.argv[i].split(",")
+                if len(res) != 2:
+                    print(usage)
+                    sys.exit(-1)
+
+                dict_entry = (res[0], res[1])
+                dictPaths.append(dict_entry)
 
     deleteFolder(exportFolderPath)
 
@@ -109,3 +136,4 @@ if __name__ == "__main__":
         h.generateHashTable(dictPaths[i][1])
         h.exportHashTable(exportFolderPath)
         print("export finished for " + dictPaths[i][0])
+
