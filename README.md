@@ -5,3 +5,4 @@
 * Ajouter possibilité d'ajouter les tables de hachage manuellement
 * Coloration syntaxique des erreurs
 * Documentation utilisateur
+* Commencer la detection de langue aprés 5 mots
