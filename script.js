@@ -52,23 +52,52 @@ function findLang(values_list) {
 
 	for(let i in values_list) {
 	 	for(let key_lang in lang) {
-		 	if(hashtables[key_lang].wordInHashTable(values_list[i])) {
+		 	if(hashtables[key_lang].wordInHashTable(values_list[i].toLowerCase())) {
 		 		lang[key_lang]++;
 		 	}
 	 	}
 	}
 
 	//console.log(lang);
-
-	chooseLang(lang);
+	chooseLang(lang, values_list);
 }
 
-function chooseLang(lang) {
+function chooseLang(lang, values_list) {
 
 	let key = Object.keys(lang).reduce(function(a, b){ return lang[a] > lang[b] ? a : b });
 	if(lang[key] >= 4) {
 		changeImg(key);
+		findErrorForLang(key, values_list);
 	} else {
 		removeImg();
 	}
+}
+
+function findErrorForLang(lang, values_list)
+{
+	let error_array = [];
+
+  	for(let i in values_list) {
+	 	if(!hashtables[lang].wordInHashTable(values_list[i].toLowerCase())) {
+	 		error_array.push(values_list[i]);
+	 		//console.log(values_list[i])
+	 	}
+	}
+
+	//console.log(error_array);
+  	colorText(error_array);
+}
+
+// Coloration
+
+function colorText(error_array)
+{
+	console.log(error_array)
+	$('#content_textarea').highlightTextarea({
+  		id: 'demo7-textarea',
+        words: {
+		    color: '#E57373',
+		    words: error_array
+	  	}
+	});
 }
