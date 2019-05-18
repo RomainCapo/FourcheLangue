@@ -16,7 +16,7 @@ hashFilePaths.forEach(function(e){
   lang[e[0]] = 0;
 })
 
-console.log(hashtables.french.getAverageAcessTime());
+console.log(hashtables.french.getAverageAcessTime())
 
 function init() {
   document.getElementById("language_infos").style.visibility = "hidden";

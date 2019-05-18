@@ -111,6 +111,6 @@ class HashTable{
       let t1 = performance.now();
       totalTime += (t1 - t0);
     }, this);
-    return totalTime / words.length;
+    return (totalTime / words.length);
   }
 }
