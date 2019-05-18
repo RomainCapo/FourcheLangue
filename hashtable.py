@@ -107,7 +107,12 @@ class HashTable:
         if not os.path.exists(folder):
             os.makedirs(folder)
 
-        with io.open(folder + "/" + self.lang + ".json", 'w', encoding='utf8') as outfile:
+        jsonFilePath = folder + "/" + self.lang + ".json"
+
+        if os.path.isfile(jsonFilePath):
+            os.remove(jsonFilePath)
+
+        with io.open(jsonFilePath, 'w', encoding='utf8') as outfile:
             json.dump(out, outfile, ensure_ascii=False)
 
 def deleteFolder(folder):
@@ -122,35 +127,39 @@ def deleteFolder(folder):
 
 if __name__ == "__main__":
     usage = """
-    hashtable.py <export_folder> <dict_name_and_path>
+    hashtable.py <export_folder> <remove_folder> <dict_name_and_path>
 
     <export_folder> : path of the export folder
-    <dict_name_and_path> : <lang>;<path>
+    <remove_folder> : yes or true to delete, no or false to keep
+    <dict_name_and_path> : <lang>;<path_to_txt_file>
 
     For default parameter, do not specify any arguments
     """ 
 
     #default parameters
     exportFolderPath = "hash"
+    removeExportFolder = True
     dictPaths = [("french", "dict/french.txt"), ("english", "dict/english.txt"), ("deutsch", "dict/deutsch.txt"), ("italiano", "dict/italiano.txt"), ("espanol", "dict/espanol.txt"), ("norsk", "dict/norsk.txt"), ("dansk", "dict/dansk.txt")]
-
-    if len(sys.argv) == 2:
-        exportFolderPath = sys.argv[1]
+    
+    del sys.argv[0]
 
     if len(sys.argv) > 2:
-        dictPaths.clear()
+        exportFolderPath = sys.argv[0]
+        if sys.argv[1].lower() in ['no', 'false']:
+            removeExportFolder = False
+        del sys.argv[0]
+        del sys.argv[0]
+        for dict_entry in sys.argv:
+            dictPaths.clear()
+            res = dict_entry.split(";")
+            if len(res) == 2: 
+                dictPaths.append((res[0], res[1]))
+            else :
+                print(usage)
+                sys.exit(-1)
 
-        for i in range(len(sys.argv)):
-            if i != 0 and i!= 1:
-                res = sys.argv[i].split(",")
-                if len(res) != 2:
-                    print(usage)
-                    sys.exit(-1)
-
-                dict_entry = (res[0], res[1])
-                dictPaths.append(dict_entry)
-
-    deleteFolder(exportFolderPath)
+    if removeExportFolder:
+        deleteFolder(exportFolderPath)
 
     for i in range(len(dictPaths)):
         h = HashTable(dictPaths[i][0])
