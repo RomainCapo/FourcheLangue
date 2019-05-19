@@ -70,6 +70,7 @@ function chooseLang(lang, values_list) {
 		findErrorForLang(key, values_list);
 	} else {
 		removeImg();
+		colorText([]);
 	}
 }
 
@@ -93,11 +94,13 @@ function findErrorForLang(lang, values_list)
 function colorText(error_array)
 {
 	console.log(error_array)
-	$('#content_textarea').highlightTextarea({
-  		id: 'demo7-textarea',
-        words: {
-		    color: '#E57373',
-		    words: error_array
-	  	}
-	});
+	let text = document.getElementById('content_textarea').value;
+
+	let res = "";
+	for (let i in error_array) {  
+	  res = text.replace(error_array[i], "<span style='color:red'>" + error_array[i] + "</span>")
+	  text = res;
+	}
+
+	document.getElementById('corrections').innerHTML = res;
 }
