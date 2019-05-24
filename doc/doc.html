@@ -9,14 +9,14 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>FourcheLangue - Documentation</title>
+    <title>Documentation - FourcheLangue</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
   </head>
   <body>
 	<div class="container">
 		<br>
-		<h1 style="color:#73AA24"><strong>Documentation FourcheLangue</strong></h1>
+		<h1 style="color:#73AA24"><strong>Documentation - FourcheLangue</strong></h1>
 	    <br>
 	    <h5 class="card-title">Projet Algo. et SDD - 2018/2019</h5>
 	    <p class="card-text">Romain Capocasale et Vincent Moulin, INF2dlma</p>
@@ -27,10 +27,23 @@
 	    <p>Le script python "hashtable.py" permet de pouvoir générer une hashtable dans un fichier en format json. Il y a plusieurs méthodes pour utiliser notre script :</p>
 	    <ul>
 	    	<li>La première, en exécutant simplement le script. Dans le code, il y a des valeurs par défaut pour le nom du dossier d'export, ainsi que les chemins d'accès aux fichier text.</li>
-	    	<li>pour la seconde méthode, il est possible de spécifier plusieurs paramètres d'entrée. un exemple de commande : <strong></strong></li>
+	    	<li>pour la seconde méthode, il est possible de spécifier plusieurs paramètres d'entrée. un exemple de commande dans le cmd : <br><strong>py hashtable.py hash_folder french;dict/french.txt english;dict/english.txt</strong><br>Ici, le script va générer deux fichiers json (un par rapport au fichier "french.txt" et un autre pour le "english.txt") dans un dossier nommé hash_folder.</li>
 	    </ul>
+	    <p><strong style="color:red">Attention !</strong> Le script va d'abord supprimer un probable dossier qui aurait le même nom, vérifier donc à utiliser un nom de dossier qui n'existe pas encore, ou que le dossier déjà existant n'est plus utile.</p>
 	    <hr>
 	    <h3 style="color:#73AA24">Application de détection</h3>
+	    <p>Au niveau de l'application de détection, son utilisation est très simple.</p>
+	    <p>Tout d'abord nous avons un champs pour entrer du text. Il suffit d'entrer une phrase de plusieurs mots, pour que notre algorithme détecte la langue dans laquelle la phrase est écrite. Une fois la langue détectée, un petit drapeau représentant la langue sera affiché en dessus.</p>
+	    <p>Au niveau de la correction, le text entré est copié en dessous, et les erreurs (par rapport à la langue détectée en cours) sont surligné en rouge.</p>
+	    <p>Que représente les données en dessous ? Pour chaque dictionnaire de mots que nous avons appliqué à notre programme, différentes informations seront affichées :</p>
+	    <ul>
+	    	<li>Number of words : correspond au nombre de mots présents dans le dictionnaire</li>
+	    	<li>Average time access : le temps d'accès moyen à un mot dans la table</li>
+	    	<li>Number of collisions : le nombre de collisions présentes dans la table de hachage</li>
+	    	<li>Filling rate of the HashTable : le taux de remplissage de notre table de hachage</li>
+	    </ul>
+	    <br>
+	    <br>
 	</div>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
