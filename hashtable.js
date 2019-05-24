@@ -86,7 +86,7 @@ class HashTable{
   drawRandomWord(nbWord){
     let words = []
     while(words.length <= nbWord){
-      let random = Math.floor((Math.random() * this.hashTableLength) - 1);
+      let random = Math.floor((Math.random() * this.hashTableLength));
       //console.log(random);
       if(this.hashtable[random].length > 0){
         this.hashtable[random].forEach(function(e){
@@ -99,7 +99,7 @@ class HashTable{
 
   /**
    * Calcule le temps d'accè moyen pour une table de hachage
-   * @return {Float} temps moyen d'accès de la table de hachage
+   * @return {Float} temps moyen d'accès de la table de hachage en ms
    */
   getAverageAcessTime(){
     let words = this.drawRandomWord(20000);

@@ -16,11 +16,28 @@ hashFilePaths.forEach(function(e){
   lang[e[0]] = 0;
 })
 
-console.log(hashtables.french.getAverageAcessTime());
-
 function init() {
   document.getElementById("language_infos").style.visibility = "hidden";
   document.getElementById("content_textarea").focus();
+  displayInfosHashtables();
+}
+
+function displayInfosHashtables() {
+
+	for(let key_lang in lang) {
+		let numberWords = hashtables[key_lang].hashTableLength;
+		let accessTime = 1000*hashtables[key_lang].getAverageAcessTime();
+		let nbCollisions =  hashtables[key_lang].nbCollision;
+		let fillingRateHashTables = hashtables[key_lang].fillingRate;
+	 	let text = "";
+
+		text += "Number of words : " + numberWords + "<br>";
+		text += "Average time access : " + accessTime.toFixed(3) + " microseconds<br>";
+		text += "Number of collisions : " + nbCollisions + "<br>";
+		text += "Filling rate of the HashTable : " + fillingRateHashTables + "%<br>";
+
+		document.getElementById(key_lang).innerHTML = text;
+ 	}
 }
 
 function getContent() {
@@ -33,8 +50,6 @@ function getContent() {
 
   findLang(values_list);
 }
-
-
 
 function changeImg(language) {
 	document.getElementById("language_infos").style.visibility = "visible";
@@ -93,7 +108,7 @@ function findErrorForLang(lang, values_list)
 
 function colorText(error_array)
 {
-	console.log(error_array)
+	//console.log(error_array)
 	let text = document.getElementById('content_textarea').value;
 
 	let res = "";

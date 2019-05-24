@@ -134,15 +134,16 @@ if __name__ == "__main__":
     exportFolderPath = "hash"
     dictPaths = [("french", "dict/french.txt"), ("english", "dict/english.txt"), ("deutsch", "dict/deutsch.txt"), ("italiano", "dict/italiano.txt"), ("espanol", "dict/espanol.txt"), ("norsk", "dict/norsk.txt"), ("dansk", "dict/dansk.txt")]
 
-    if len(sys.argv) == 2:
+    if len(sys.argv) > 1:
         exportFolderPath = sys.argv[1]
+        print("test")
 
     if len(sys.argv) > 2:
         dictPaths.clear()
 
         for i in range(len(sys.argv)):
             if i != 0 and i!= 1:
-                res = sys.argv[i].split(",")
+                res = sys.argv[i].split(";")
                 if len(res) != 2:
                     print(usage)
                     sys.exit(-1)
@@ -150,6 +151,7 @@ if __name__ == "__main__":
                 dict_entry = (res[0], res[1])
                 dictPaths.append(dict_entry)
 
+    print(exportFolderPath)
     deleteFolder(exportFolderPath)
 
     for i in range(len(dictPaths)):
