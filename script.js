@@ -17,7 +17,7 @@ let lang = [];
 hashFilePaths.forEach(function(e){
   hashtables[e[0]] = new HashTable(e[1]);
   lang[e[0]] = 0;
-})
+});
 
 /**
 * Fonction d'initialisation lors du chargement du body
@@ -28,14 +28,11 @@ function init() {
   displayInfosHashtables();
 }
 
-// Fonction d'affichage des informations de les tables de hachage
-
 /**
 * Fonction d'affichage des informations de les tables de hachage
 */
 function displayInfosHashtables() {
-
-	// Itération sur chacune des langues du tableau
+  // Itération sur chacune des langues du tableau
 	for(let key_lang in lang) {
 		// Récupération des informations dans des variables
 		let numberWords = hashtables[key_lang].hashTableLength;
@@ -52,7 +49,8 @@ function displayInfosHashtables() {
 
 		// Affichage des données dans les différents id présents dans index.html
 		document.getElementById(key_lang).innerHTML = text;
- 	}
+    console.log("FIN TRAITEMENT")
+}
 }
 
 /**
@@ -62,7 +60,7 @@ function getContent() {
   let values = document.getElementById("content_textarea").value;
 
   let regex = /[.,"]/g; // Expression régulière pour retirer les caractères . , et "
-  let values_clear = values.replace(regex, ''); 
+  let values_clear = values.replace(regex, '');
   let values_list = values_clear.split(' '); // On génère un tableau en séparant à chaque espace
 
   findLang(values_list);
@@ -118,8 +116,8 @@ function findLang(values_list) {
 
 	for(let i in values_list) {
 	 	for(let key_lang in lang) {
-		 	if(hashtables[key_lang].wordInHashTable(values_list[i].toLowerCase())) { 
-		 		// Si le mot est dans une table de 
+		 	if(hashtables[key_lang].wordInHashTable(values_list[i].toLowerCase())) {
+		 		// Si le mot est dans une table de
 		 		// hachage, on incrémente la valeur de la langue dans laquelle il est
 		 		lang[key_lang]++;
 		 	}
@@ -175,9 +173,9 @@ function colorText(error_array)
 	let text = document.getElementById('content_textarea').value;
 
 	let res = "";
-	for (let i in error_array) {  
+	for (let i in error_array) {
 	  // On remplace les mots contenu dans le tableau d'erreur, en les entourant avec des span coloré
-	  res = text.replace(error_array[i], "<span style=\"color:red\">" + error_array[i] + "</span>") 
+	  res = text.replace(error_array[i], "<span style=\"color:red\">" + error_array[i] + "</span>")
 	  text = res;
 	}
 
