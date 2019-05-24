@@ -136,7 +136,6 @@ if __name__ == "__main__":
 
     if len(sys.argv) > 1:
         exportFolderPath = sys.argv[1]
-        print("test")
 
     if len(sys.argv) > 2:
         dictPaths.clear()
@@ -151,7 +150,6 @@ if __name__ == "__main__":
                 dict_entry = (res[0], res[1])
                 dictPaths.append(dict_entry)
 
-    print(exportFolderPath)
     deleteFolder(exportFolderPath)
 
     for i in range(len(dictPaths)):
