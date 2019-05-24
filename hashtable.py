@@ -79,8 +79,8 @@ class HashTable:
                     self.nbCollision +=1
 
                 #Calcule du taux de remplissage
-                self.hasList[hash] = 1            
-            
+                self.hasList[hash] = 1
+
             nbList = self.hasList.count(1)
             self.fillingRate = float("%.2f" % ((nbList / self.length) * 100))
 
@@ -128,7 +128,7 @@ if __name__ == "__main__":
     <dict_name_and_path> : <lang>;<path>
 
     For default parameter, do not specify any arguments
-    """ 
+    """
 
     #default parameters
     exportFolderPath = "hash"
@@ -157,4 +157,3 @@ if __name__ == "__main__":
         h.generateHashTable(dictPaths[i][1])
         h.exportHashTable(exportFolderPath)
         print("export finished for " + dictPaths[i][0])
-

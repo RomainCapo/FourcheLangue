@@ -6,6 +6,12 @@
 * Projet cours d'algorithme
 */
 
+ let tree = new Tree();
+ //let words = ["in", "is", "tavern", "there", "the", "town"];
+ let words = ['town', 'the'];
+//tree.createTree(words);
+//tree.display();
+
 let hashFilePaths = [['french', 'hash/french.json'], ['english','hash/english.json'], ['deutsch','hash/deutsch.json'], ['italiano', 'hash/italiano.json'], ['spain', 'hash/espanol.json'], ['denmark', 'hash/dansk.json'], ['norsk', 'hash/norsk.json']];
 
 let hashtables = [];
@@ -14,9 +20,9 @@ let lang = [];
 hashFilePaths.forEach(function(e){
   hashtables[e[0]] = new HashTable(e[1]);
   lang[e[0]] = 0;
-})
+});
 
-console.log(hashtables.french.getAverageAcessTime());
+console.log(hashtables.french.fn("anticonstitutionnellement").toFixed());
 
 function init() {
   document.getElementById("language_infos").style.visibility = "hidden";
@@ -97,7 +103,7 @@ function colorText(error_array)
 	let text = document.getElementById('content_textarea').value;
 
 	let res = "";
-	for (let i in error_array) {  
+	for (let i in error_array) {
 	  res = text.replace(error_array[i], "<span style='color:red'>" + error_array[i] + "</span>")
 	  text = res;
 	}

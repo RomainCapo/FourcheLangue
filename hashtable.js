@@ -70,12 +70,16 @@ class HashTable{
  * @return {Integer}        hash du mot passé en parametre
  */
   fn(string){
-    let hash = 0;
-    const C = 42;
+    let hash = new Big(0);
+    const C = new Big(11);
     for(let i = 0; i < string.length; i++){
-      hash += string.charCodeAt(i) * Math.pow(C,i)
+      let asciiCode = new Big(string.charCodeAt(i))
+      let exponent = new Big(C).pow(i)
+      let value = asciiCode.times(exponent)
+      console.log(value.toFixed());
+      hash = hash.plus(value);
     }
-    return hash % this.hashTableLength;
+    return hash.mod(this.hashTableLength);
   }
 
   /**
@@ -86,7 +90,7 @@ class HashTable{
   drawRandomWord(nbWord){
     let words = []
     while(words.length <= nbWord){
-      let random = Math.floor((Math.random() * this.hashTableLength) - 1);
+      let random = Math.floor((Math.random() * this.hashTableLength));
       //console.log(random);
       if(this.hashtable[random].length > 0){
         this.hashtable[random].forEach(function(e){
