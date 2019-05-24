@@ -19,7 +19,9 @@ hashFilePaths.forEach(function(e){
   lang[e[0]] = 0;
 })
 
-// Fonction d'initialisation lors du chargement du body
+/**
+* Fonction d'initialisation lors du chargement du body
+*/
 function init() {
   document.getElementById("language_infos").style.visibility = "hidden"; // on cache l'affichage de la langue
   document.getElementById("content_textarea").focus(); // focus sur le textarea
@@ -27,6 +29,10 @@ function init() {
 }
 
 // Fonction d'affichage des informations de les tables de hachage
+
+/**
+* Fonction d'affichage des informations de les tables de hachage
+*/
 function displayInfosHashtables() {
 
 	// Itération sur chacune des langues du tableau
@@ -49,7 +55,9 @@ function displayInfosHashtables() {
  	}
 }
 
-// Fonction qui récupère le contenu du textarea
+/**
+* Fonction qui récupère le contenu du textarea
+*/
 function getContent() {
   let values = document.getElementById("content_textarea").value;
 
@@ -60,35 +68,49 @@ function getContent() {
   findLang(values_list);
 }
 
-
-// Fonction qui prend en paramètre une langue pour mettre à jour le drapeau
+/**
+* Fonction qui prend en paramètre une langue pour mettre à jour le drapeau
+* @param  {String} language : drapeau qui doit être chargé
+*/
 function changeImg(language) {
 	document.getElementById("language_infos").style.visibility = "visible"; // On affiche le texte
 	document.getElementById("img_lang").src="flags/" + language + ".png"; // on ajoute dynamiquement le lien de l'image selon le paramètre
 }
 
-// Fonction qui cache le texte de l'image
+/**
+* Fonction qui cache le texte de l'image
+*/
 function removeImg() {
 	document.getElementById("language_infos").style.visibility = "hidden";
 }
 
-// Fonction qui remet à zéro le texte du pourcentage
+/**
+* Fonction qui remet à zéro le texte du pourcentage
+*/
 function removePercentage() {
 	document.getElementById("pourcentage").innerHTML = "";
 }
 
-// Fonction qui affiche le pourcentage de justesse de détection de la langue
+/**
+* Fonction qui affiche le pourcentage de justesse de détection de la langue
+* @param  {String} key : clé de la langue détectée
+* @param  {array} lang : tableau des langues et leur valeur
+* @param  {array} array : tableau des mots du textarea
+*/
 function displayPercentage(key, lang, array) {
 
 	let value = lang[key]; // récupération nombre de mots dans la langue détecté
 	let length = array.length;
 
-	let percentage = ((value/length)*100).toFixed(2); // on calucle le pourcentage entre le nombre de mots de la langue et le nombre de mots totaux
+	let percentage = ((value/length)*100).toFixed(2); // on calcule le pourcentage entre le nombre de mots de la langue et le nombre de mots totaux
 
 	document.getElementById("pourcentage").innerHTML = "Percentage that the detected language is correct : <strong>" + percentage + "%</strong>.";
 }
 
-// Fonction qui trouve la langue
+/**
+* Fonction qui trouve la langue
+* @param  {array} values_list : tableau des mots du texarea
+*/
 function findLang(values_list) {
 	for (let key in lang) {
 	  lang[key] = 0; // Remise à zéro de tous les indices
@@ -107,7 +129,11 @@ function findLang(values_list) {
 	chooseLang(lang, values_list);
 }
 
-// Fonction qui décide selon le tableau quelle est la langue
+/**
+* Fonction qui décide selon le tableau quelle est la langue
+* @param  {array} lang : tableau de slngues et leur valeur
+* @param  {array} values_list : tableau de smots du textarea
+*/
 function chooseLang(lang, values_list) {
 	let lang_array = lang
 	let key = Object.keys(lang).reduce(function(a, b){ return lang[a] > lang[b] ? a : b }); // retourne la clé qui contient la plus grande valeur
@@ -122,7 +148,11 @@ function chooseLang(lang, values_list) {
 	}
 }
 
-// Fonction qui cherche erreurs dans le text selon un langue donnée en paramètre
+/**
+* Fonction qui cherche erreurs dans le text selon un langue donnée en paramètre
+* @param  {array} lang : tableau de slngues et leur valeur
+* @param  {array} values_list : tableau de smots du textarea
+*/
 function findErrorForLang(lang, values_list)
 {
 	let error_array = [];
@@ -136,7 +166,10 @@ function findErrorForLang(lang, values_list)
   	colorText(error_array);
 }
 
-// Fonction qui a pour but de colorer les mots contenu dans un tableau
+/**
+* Fonction qui a pour but de colorer les mots contenu dans un tableau
+* @param  {array} error_array : tableau des mots faux
+*/
 function colorText(error_array)
 {
 	let text = document.getElementById('content_textarea').value;
