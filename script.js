@@ -13,6 +13,8 @@ let hashFilePaths = [['french', 'hash/french.json'], ['english','hash/english.js
 let hashtables = [];
 let lang = [];
 
+let keyLang = "";
+
 // Ajout d'un objet HashTable en passant en paramètre le chemin, et une mise à 0 à l'indice de la langue dans le tableau.
 hashFilePaths.forEach(function(e){
   hashtables[e[0]] = new HashTable(e[1]);
@@ -23,34 +25,50 @@ hashFilePaths.forEach(function(e){
 * Fonction d'initialisation lors du chargement du body
 */
 function init() {
-  document.getElementById("language_infos").style.visibility = "hidden"; // on cache l'affichage de la langue
-  document.getElementById("content_textarea").focus(); // focus sur le textarea
-  displayInfosHashtables();
+	document.getElementById("language_infos").style.visibility = "hidden"; // on cache l'affichage de la langue
+	document.getElementById("infos-bloc").style.visibility = "hidden"; // on cache l'affichage des infos
+	document.getElementById("content_textarea").focus(); // focus sur le textarea
+
+	let select = document.getElementById("selectLang");
+
+	// Génère une liste déroulante selon les pays
+	for(let key_lang in lang) {
+		let option = document.createElement('option');
+		option.appendChild(document.createTextNode(key_lang));
+		option.value = key_lang; 
+		select.appendChild(option);
+ 	}
+
+ 	document.getElementById("selectLang").onchange = function(){
+		let key = document.getElementById("selectLang").value;
+    	displayInfosHashtables(key);
+	}
 }
 
 /**
 * Fonction d'affichage des informations de les tables de hachage
+* @param  {String} key : clé de la langue détectée
 */
-function displayInfosHashtables() {
-  // Itération sur chacune des langues du tableau
-	for(let key_lang in lang) {
-		// Récupération des informations dans des variables
-		let numberWords = hashtables[key_lang].hashTableLength;
-		let accessTime = 1000*hashtables[key_lang].getAverageAcessTime(); // *1000 pour avoir en micro secondes
-		let nbCollisions =  hashtables[key_lang].nbCollision;
-		let fillingRateHashTables = hashtables[key_lang].fillingRate;
-	 	let text = "";
+function displayInfosHashtables(key) {
 
-	 	// Concaténation des infos dans du html
-		text += "Number of words : " + numberWords + "<br>";
-		text += "Average time access : " + accessTime.toFixed(3) + " microseconds<br>";
-		text += "Number of collisions : " + nbCollisions + "<br>";
-		text += "Filling rate of the HashTable : " + fillingRateHashTables + "%<br>";
+	document.getElementById("infos-bloc").style.visibility = "visible";
 
-		// Affichage des données dans les différents id présents dans index.html
-		document.getElementById(key_lang).innerHTML = text;
-    console.log("FIN TRAITEMENT")
-}
+	// Récupération des informations dans des variables
+	let numberWords = hashtables[key].hashTableLength;
+	let accessTime = 1000*hashtables[key].getAverageAcessTime(); // *1000 pour avoir en micro secondes
+	let nbCollisions =  hashtables[key].nbCollision;
+	let fillingRateHashTables = hashtables[key].fillingRate;
+ 	let text = "";
+
+ 	// Concaténation des infos dans du html
+	text += "Number of words : " + numberWords + "<br>";
+	text += "Average time access : " + accessTime.toFixed(3) + " microseconds<br>";
+	text += "Number of collisions : " + nbCollisions + "<br>";
+	text += "Filling rate of the HashTable : " + fillingRateHashTables + "%<br>";
+
+	// Affichage des données dans les différents id présents dans index.html
+	document.getElementById("data-infos").innerHTML = text;
+	document.getElementById("title-infos").innerHTML = key;
 }
 
 /**
@@ -139,6 +157,7 @@ function chooseLang(lang, values_list) {
 		changeImg(key); // changement du drapeau
 		findErrorForLang(key, values_list); // on toruve les erreurs
 		displayPercentage(key, lang_array, values_list); // on affiche le pourcentage
+		keyLang = key;
 	} else { // si moins de mots
 		removeImg(); // on retire l'image, le pourcentage et on vide le tableau à colorer
 		removePercentage();
