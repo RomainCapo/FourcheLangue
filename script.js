@@ -12,7 +12,6 @@ let hashFilePaths = [['french', 'hash/french.json'], ['english','hash/english.js
 // Déclarations de variables globales
 let hashtables = [];
 let lang = [];
-
 let keyLang = "";
 
 // Ajout d'un objet HashTable en passant en paramètre le chemin, et une mise à 0 à l'indice de la langue dans le tableau.
@@ -35,7 +34,7 @@ function init() {
 	for(let key_lang in lang) {
 		let option = document.createElement('option');
 		option.appendChild(document.createTextNode(key_lang));
-		option.value = key_lang; 
+		option.value = key_lang;
 		select.appendChild(option);
  	}
 
