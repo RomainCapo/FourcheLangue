@@ -3,3 +3,8 @@
 	font-weight: bold;
 	font-style: italic;
 }
+
+.red {
+	background-color: #ff5252;
+	border-radius: 2px;
+}

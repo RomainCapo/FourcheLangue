@@ -59,13 +59,20 @@ function displayInfosHashtables() {
 * Fonction qui récupère le contenu du textarea
 */
 function getContent() {
-  let values = document.getElementById("content_textarea").value;
+	let values = document.getElementById("content_textarea").value;
 
-  let regex = /[.,"]/g; // Expression régulière pour retirer les caractères . , et "
-  let values_clear = values.replace(regex, '');
-  let values_list = values_clear.split(' '); // On génère un tableau en séparant à chaque espace
+	let regex = /[.,"']/g; // Expression régulière pour retirer les caractères . , et "
+	let values_clear = values.replace(regex, ' ');
+	//let values_list = values_clear.match(/\w+|"[^']+"/g) // On génère un tableau en séparant à chaque espace et apostrophe
 
-  findLang(values_list);
+	let values_list = values_clear.split(" ");
+
+	// Retire les cases vides du tableau
+	values_list = values_list.filter(function(e){
+		return e != "";
+	})
+
+	findLang(values_list);
 }
 
 /**
@@ -164,7 +171,7 @@ function addPercentageForallLang(lang, values_list) {
 
 	let text = "";
 
-	if(values_list.length == 1 && values_list[0] == "") {
+	if(values_list == null) {
 		text += "";
 	}
 	else
@@ -220,6 +227,7 @@ function sortProperties(obj, isNumericSort)
 * @param  {array} values_list : tableau de smots du textarea
 */
 function findErrorForLang(lang, values_list) {
+
 	let error_array = [];
 
   	for(let i in values_list) {
@@ -236,15 +244,22 @@ function findErrorForLang(lang, values_list) {
 * @param  {array} error_array : tableau des mots faux
 */
 function colorText(error_array) {
-	let text = document.getElementById('content_textarea').value;
 
-	let res = "";
-	for (let i in error_array) {
-	  // On remplace les mots contenu dans le tableau d'erreur, en les entourant avec des span coloré
-	  // Le paramètre g dans l'instanciation d'un objet de type RegExp permet de remplacer toutes les occurences d'un mot dans une phrase
-	  res = text.replace(new RegExp(error_array[i], 'g'), "<span style=\"color:red\">" + error_array[i] + "</span>")
-	  text = res;
-	}
+	// Ajout d'espace pour contrer le fait qu'il surligne un  mot faux dans un mot plus grand qui contiendrait le mot faux
+	error_array = error_array.map(function(e) { return " " + e + " "; })
 
-	document.getElementById('corrections').innerHTML = res;
+	highlighter.highlightWithinTextarea('destroy');
+	highlighter.highlightWithinTextarea({
+		highlight: error_array,
+		className: 'red'
+	});
+
+	highlighter.focus();	
 }
+
+// Définition d'une variable pour l'utilisation de l'highlighter
+let highlighter = $('#content_textarea');
+highlighter.highlightWithinTextarea({
+		highlight: '',
+		className: 'red'
+});
