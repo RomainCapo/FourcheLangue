@@ -27,28 +27,78 @@
 	      <h4 for="content_textarea">Write your text, Harry will tell you what's the language <span style='font-size:25px;'>&#128013;</span></h4>
 	      <p id="language_infos">This text is writing in <img id="img_lang" src="" width="25" height="25"></p>
 	      <p id="pourcentage"></p>
+	      <p id="display_warning"></p>
         <textarea class="form-control" id="content_textarea" rows="5" onkeyup="getContent()" spellcheck="false"></textarea>
 	    </div>
 	    <p id="corrections"></p>
-	    <br>
 	    <hr>
-	    <div class="form-group">
-		    <label for="selectLang" style="color:#73AA24">Select a lang to get informations</label>
-		    <select class="form-control" id="selectLang">
-		    </select>
+	    <div class="row">
+		  <div class="col-sm-6">
+		    <div class="card">
+		      <div class="card-body">
+		        <h5 class="card-title">French</h5>
+		        <p class="card-text" id="french"></p>
+		      </div>
+		    </div>
 		  </div>
-	    <div id="infos-bloc">
-		    <div class="row">
-			  <div class="col-sm-12">
-			    <div class="card">
-			      <div class="card-body">
-			        <h5 class="card-title" id="title-infos"></h5>
-			        <p class="card-text" id="data-infos"></p>
-			      </div>
-			    </div>
-			  </div>
-			</div>
-	    </div>
+		  <div class="col-sm-6">
+		    <div class="card">
+		      <div class="card-body">
+		        <h5 class="card-title">English</h5>
+		        <p class="card-text" id="english"></p>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<br>
+		<div class="row">
+		  <div class="col-sm-6">
+		    <div class="card">
+		      <div class="card-body">
+		        <h5 class="card-title">Espagnol</h5>
+		        <p class="card-text" id="spain"></p>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="col-sm-6">
+		    <div class="card">
+		      <div class="card-body">
+		        <h5 class="card-title">Deutsch</h5>
+		        <p class="card-text" id="deutsch"></p>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<br>
+		<div class="row">
+		  <div class="col-sm-6">
+		    <div class="card">
+		      <div class="card-body">
+		        <h5 class="card-title">Italiano</h5>
+		        <p class="card-text" id="italiano"></p>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="col-sm-6">
+		    <div class="card">
+		      <div class="card-body">
+		        <h5 class="card-title">Dansk</h5>
+		        <p class="card-text" id="denmark"></p>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<br>
+		<div class="row">
+		  <div class="col-sm-6">
+		    <div class="card">
+		      <div class="card-body">
+		        <h5 class="card-title">Norsk</h5>
+		        <p class="card-text" id="norsk"></p>
+		      </div>
+		    </div>
+		  </div>
+		</div>
 		<br>
 	</div>
   <script src="lib/big.min.js" charset="utf-8"></script>
