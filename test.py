@@ -68,21 +68,16 @@ def deleteFolder(folder):
 def fn(string):
     hash = 0
     i = 0
-    c = 42
+    c = 7
     for x in string:
-        hash = hash + (ord(x) * (c**i))
+        print("ord(x) ** 5 : "+ str((ord(x) ** 5)))
+        
+        value = (ord(x) ** 5) * (i+1)
+        print("value : " + str(value))
+        hash = hash + value
         i = i + 1
-    return hash % 20
+    return hash % 417832
 
 if __name__ == "__main__":
-    dictPaths = [("test", "dict/test.txt")]  
-    exportFolderPath = "hash"      
-
-    deleteFolder(exportFolderPath)
-
-    for i in range(len(dictPaths)):
-        h = HashTable(dictPaths[i][0])
-        h.generateHashTable(dictPaths[i][1])
-        h.exportHashTable(exportFolderPath)
-        print("export finished for " + dictPaths[i][0])
+    print("hash : " + str(fn("anticonstitutionnellement")))
 

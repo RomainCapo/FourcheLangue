@@ -44,9 +44,9 @@ class HashTable:
         """
         hash = 0
         i = 0
-        c = 11
+        c = 5
         for x in string:
-            hash += (ord(x) * (c**i))
+            hash += ord(x) ** c * (i+1)
             i = i + 1
         return hash % self.length
 

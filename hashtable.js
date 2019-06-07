@@ -20,9 +20,6 @@ class HashTable{
     this.hashTableLength = parseInt(this.json.length);
     this.nbCollision = parseInt(this.json.nbCollision);
     this.fillingRate = parseFloat(this.json.fillingRate);
-
-    this.c = new Big(11);
-
   }
 
   /**
@@ -73,14 +70,12 @@ class HashTable{
  * @return {Integer}        hash du mot passé en parametre
  */
   fn(string){
-    let hash = new Big(0);
+    let hash = 0;
+	const c = 5;
     for(let i = 0; i < string.length; i++){
-      let asciiCode = new Big(string.charCodeAt(i))
-      let exponent = new Big(this.c).pow(i)
-      let value = asciiCode.times(exponent)
-      hash = hash.plus(value);
+      hash += Math.pow(string.charCodeAt(i), c) * (i+1);
     }
-    return hash.mod(this.hashTableLength);
+    return hash % this.hashTableLength;
   }
 
   /**
@@ -107,7 +102,7 @@ class HashTable{
    * @return {Float} temps moyen d'accès de la table de hachage en ms
    */
   getAverageAcessTime(){
-    let words = this.drawRandomWord(2000);
+    let words = this.drawRandomWord(200000);
     let totalTime = 0;
     words.forEach((e) =>{
       let t0 = performance.now();
