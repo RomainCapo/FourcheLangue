@@ -245,6 +245,7 @@ function findErrorForLang(lang, values_list) {
 */
 function colorText(error_array) {
 
+	// Ajout d'espace pour contrer le fait qu'il surligne un  mot faux dans un mot plus grand qui contiendrait le mot faux
 	error_array = error_array.map(function(e) { return " " + e + " "; })
 
 	highlighter.highlightWithinTextarea('destroy');
