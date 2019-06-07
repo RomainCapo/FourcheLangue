@@ -7,7 +7,7 @@
 */
 
 // Tableau deux dimensions contenant la langue comme et le chemin de la table de hachage correspondante
-let hashFilePaths = [['french', 'hash/french.json'], ['english','hash/english.json'], ['deutsch','hash/deutsch.json'], ['italiano', 'hash/italiano.json'], ['espanol', 'hash/espanol.json'], ['dasnsk', 'hash/dansk.json'], ['norsk', 'hash/norsk.json']];
+let hashFilePaths = [['french', 'hash/french.json'], ['english','hash/english.json'], ['deutsch','hash/deutsch.json'], ['italiano', 'hash/italiano.json'], ['espanol', 'hash/espanol.json'], ['dansk', 'hash/dansk.json'], ['norsk', 'hash/norsk.json']];
 
 // Déclarations de variables globales
 let hashtables = [];
@@ -147,7 +147,7 @@ function chooseLang(lang, values_list) {
 	if(lang[key] >= 4) { // à partir de 4 mots dans une langue on commence à détecter
 		document.getElementById('display_warning').innerHTML = "";
 		changeImg(key); // changement du drapeau
-		findErrorForLang(key, values_list); // on toruve les erreurs
+		findErrorForLang(key, values_list); // on trouve les erreurs
 		displayPercentage(key, lang_array, values_list); // on affiche le pourcentage
 		keyLang = key;
 	} else { // si moins de mots
@@ -166,7 +166,7 @@ function addPercentageForallLang(lang, values_list) {
 	let total = 0;
 
 	for (let i = 0; i < lang.length; i++) {
-	  total += lang[i][1]; 
+	  total += lang[i][1];
 	}
 
 	let text = "";
@@ -235,26 +235,25 @@ function findErrorForLang(lang, values_list) {
 	 		error_array.push(values_list[i]); // Si un mot n'est aps dans la table de hachage de la langue détectée, on l'ajoute dans un tableau
 	 	}
 	}
-
-  	colorText(error_array);
+  	colorText(error_array, values_list);
 }
 
 /**
 * Fonction qui a pour but de colorer les mots contenu dans un tableau
 * @param  {array} error_array : tableau des mots faux
 */
-function colorText(error_array) {
+function colorText(error_array, values_list) {
 
 	// Ajout d'espace pour contrer le fait qu'il surligne un  mot faux dans un mot plus grand qui contiendrait le mot faux
-	error_array = error_array.map(function(e) { return " " + e + " "; })
+	error_array = error_array.map(function(e) { return e + " " })
 
 	highlighter.highlightWithinTextarea('destroy');
 	highlighter.highlightWithinTextarea({
 		highlight: error_array,
 		className: 'red'
-	});
+  });
 
-	highlighter.focus();	
+	highlighter.focus();
 }
 
 // Définition d'une variable pour l'utilisation de l'highlighter
