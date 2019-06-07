@@ -7,7 +7,7 @@
 */
 
 // Tableau deux dimensions contenant la langue comme et le chemin de la table de hachage correspondante
-let hashFilePaths = [['french', 'hash/french.json'], ['english','hash/english.json'], ['deutsch','hash/deutsch.json'], ['italiano', 'hash/italiano.json'], ['spain', 'hash/espanol.json'], ['denmark', 'hash/dansk.json'], ['norsk', 'hash/norsk.json']];
+let hashFilePaths = [['french', 'hash/french.json'], ['english','hash/english.json'], ['deutsch','hash/deutsch.json'], ['italiano', 'hash/italiano.json'], ['espanol', 'hash/espanol.json'], ['dasnsk', 'hash/dansk.json'], ['norsk', 'hash/norsk.json']];
 
 // Déclarations de variables globales
 let hashtables = [];
