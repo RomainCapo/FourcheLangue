@@ -62,31 +62,27 @@ class HashTable:
 
         filename -- chemin du fichier
         """
-        if os.path.exists(filename):
-            f =  io.open(filename, 'r', encoding='latin-1')
-            reader = f.read().splitlines()
-            self.length = len(reader) * 2
-            self._initList()
+        f =  io.open(filename, 'r', encoding='utf8')
+        reader = f.read().splitlines()
+        self.length = len(reader) * 2
+        self._initList()
 
-            self.hasList = [0 for x in range(self.length)]
+        self.hasList = [0 for x in range(self.length)]
 
-            for word in reader:
-                hash = self.fn(word)
-                self.hashtable[hash].append(word)
+        for word in reader:
+            hash = self.fn(word)
+            self.hashtable[hash].append(word)
 
-                #Calcule des collisions
-                if len(self.hashtable[hash]) > 1:
-                    self.nbCollision +=1
+            #Calcule des collisions
+            if len(self.hashtable[hash]) > 1:
+                self.nbCollision +=1
 
-                #Calcule du taux de remplissage
-                self.hasList[hash] = 1            
-            
-            nbList = self.hasList.count(1)
-            self.fillingRate = float("%.2f" % ((nbList / self.length) * 100))
+            #Calcule du taux de remplissage
+            self.hasList[hash] = 1            
+        
+        nbList = self.hasList.count(1)
+        self.fillingRate = float("%.2f" % ((nbList / self.length) * 100))
 
-        else:
-            print("File not found")
-            sys.exit(-1)
 
     def exportHashTable(self, folder):
         """
@@ -122,39 +118,57 @@ def deleteFolder(folder):
 
 if __name__ == "__main__":
     usage = """
-    hashtable.py <export_folder> <dict_name_and_path>
+    hashtable.py <source_folder> <export_folder>
 
+    <source_folder> : path of the source folder, the soucre_folder must contain dictionaries files at .txt format
     <export_folder> : path of the export folder
-    <dict_name_and_path> : <lang>;<path>
 
-    For default parameter, do not specify any arguments
+    For default parameter, do not specify any arguments. Default parameter is source_folder=dict, export_folder=hash
+    So you can specify 0, 1 or 2 parameters
     """ 
 
-    #default parameters
+    #Parametres par défaut du script
+    sourcePath = "dict"
     exportFolderPath = "hash"
-    dictPaths = [("french", "dict/french.txt"), ("english", "dict/english.txt"), ("deutsch", "dict/deutsch.txt"), ("italiano", "dict/italiano.txt"), ("espanol", "dict/espanol.txt"), ("norsk", "dict/norsk.txt"), ("dansk", "dict/dansk.txt")]
 
-    if len(sys.argv) > 1:
-        exportFolderPath = sys.argv[1]
+    paramLength = len(sys.argv)#Nombre de paramétre
+    del sys.argv[0]#On supprime le nom du script car on en a pas besoin
 
-    if len(sys.argv) > 2:
-        dictPaths.clear()
+    #Si le script a plus de 3 paramètres, on quitte le script
+    if paramLength > 3:
+        print(usage)
+        sys.exit(-1)
 
-        for i in range(len(sys.argv)):
-            if i != 0 and i!= 1:
-                res = sys.argv[i].split(";")
-                if len(res) != 2:
-                    print(usage)
-                    sys.exit(-1)
+    #Si le script a plus de 2 paramètres l'utilisateur ne veut modifier que le dossier source
+    if paramLength > 1:
+        #On récupère le nom du dossier source, on supprimer le parametre de la liste des paramètres et on teste l'exsitance du dossier
+        sourcePath = sys.argv[0]
+        del sys.argv[0]
+        if not os.path.exists(sourcePath):
+            print(usage)
+            print("Folder is not found !")
+            sys.exit(-1)
 
-                dict_entry = (res[0], res[1])
-                dictPaths.append(dict_entry)
+    #Si il y a 3 paramètre l'utilisateur souhaite modifier egalement le dossier de destination
+    if paramLength == 3:
+        exportFolderPath = sys.argv[0]
+        del sys.argv[0]
 
     deleteFolder(exportFolderPath)
 
-    for i in range(len(dictPaths)):
-        h = HashTable(dictPaths[i][0])
-        h.generateHashTable(dictPaths[i][1])
-        h.exportHashTable(exportFolderPath)
-        print("export finished for " + dictPaths[i][0])
+    languages = os.listdir(sourcePath)#On récupère la liste des fichiers du dossier
+    for i in range(len(languages)):
+        langName = os.path.splitext(languages[i])[0]#On recupére le nom du fichier sans l'extension
+        extension = os.path.splitext(languages[i])[1]#On récupére l'extension du fichier
+        dictPath = sourcePath + "/" + languages[i]#Contient le chemin du dictionnaire au format txt
+
+        #On test si c'est bien un fichier au format 
+        if os.path.isfile(dictPath) and extension == ".txt":
+            h = HashTable(langName)#On créé la table de hachage
+            h.generateHashTable(dictPath)
+            h.exportHashTable(exportFolderPath)
+            print("export finished for " + langName)
+        else :
+            print(usage)
+            sys.exit(-1)
 
