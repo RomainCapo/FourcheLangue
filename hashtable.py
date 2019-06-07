@@ -62,7 +62,7 @@ class HashTable:
 
         filename -- chemin du fichier
         """
-        f =  io.open(filename, 'r', encoding='latin-1')
+        f =  io.open(filename, 'r', encoding='utf8')
         reader = f.read().splitlines()
         self.length = len(reader) * 2
         self._initList()
