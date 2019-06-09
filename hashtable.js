@@ -15,7 +15,7 @@ class HashTable{
    * @param {String} path chemin relatif où se trouve la table de hachage au format JSON
    */
   constructor(path){
-    this.json = JSON.parse(this._readJsonFile(path));
+    this.json = JSON.parse(JsonReader.readJsonFile(path));
     this.hashtable = this.json.hashtable;
     this.hashTableLength = parseInt(this.json.length);
     this.nbCollision = parseInt(this.json.nbCollision);
@@ -37,31 +37,6 @@ class HashTable{
     }  else{
       return false;
     }
-  }
-
-/**
- * lit le contenu du fichier JSON
- * @param  {String} path chemin relatif où se trouve la table de hachage au format JSON
- * @return {String}      contenu du fichier JSON sous forme de texte
- */
-  _readJsonFile(path)
-  {
-      let allText
-      var rawFile = new XMLHttpRequest();
-      rawFile.open("GET", path, false);
-      rawFile.overrideMimeType('application/json');
-      rawFile.onreadystatechange = function ()
-      {
-          if(rawFile.readyState === 4)
-          {
-              if(rawFile.status === 200 || rawFile.status == 0)
-              {
-                  allText = rawFile.responseText;
-              }
-          }
-      }
-      rawFile.send(null);
-      return allText;
   }
 
 /**
@@ -102,7 +77,7 @@ class HashTable{
    * @return {Float} temps moyen d'accès de la table de hachage en ms
    */
   getAverageAcessTime(){
-    let words = this.drawRandomWord(200000);
+    let words = this.drawRandomWord(50000);
     let totalTime = 0;
     words.forEach((e) =>{
       let t0 = performance.now();

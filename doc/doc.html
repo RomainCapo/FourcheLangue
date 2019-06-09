@@ -5,6 +5,7 @@
  2018-2019
  Projet cours d'algorithme
 -->
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -24,12 +25,12 @@
 	    <hr>
 	    <br>
 		<h3 style="color:#73AA24">Introduction</h3>
-		<p>Notre application se décompose en 2 parties. La première partie est un script python qui permet de générer des tables de hachages au format json à partir d'un fichier de texte. La seconde partie est une page web qui permet d'effectuer différent traitement sur ces tables de hachages avec les fichiers json.</p>
+		<p>Notre application se décompose en 2 parties. La première partie est un script python qui permet de générer des tables de hachages au format json à partir d'un fichier de texte et un fichier d'autoload. La seconde partie est une page web qui permet d'effectuer différent traitement sur ces tables de hachages avec les fichiers json.</p>
 		<p> Par défaut, l'application fournit déjà les fichiers json et la page web peut être utilisé telle qu'elle. Cepandant si vous souhaitez, ajouter de nouvelle langue ou modifier le dossier d'exportation des fichier json, vous pouvez utiliser le script python.</p>
-	    <p><strong style="color:red">Attention !</strong> Il est impératif de lancer le script avec le navigateur <strong>Firefox</strong>. En effet tous les autres navigateurs ont bloqué la possibilité de pouvoir lire des fichiers sur le disque de l'utilisateur. La page peut également être lancé sous Chrome si on lance Google Chrome avec le paramétre suivant <i>chrome.exe --allow-file-access-from-files</i>. Il est également impératif de lancer la page index.html au même niveau que le dossier <i>hash</i> sinon le script ne va pas fonctionner et provoquer une erreur. </p>
+	    <p><strong style="color:red">Attention !</strong> Il est impératif de lancer le script avec le navigateur <strong>Firefox</strong>. En effet tous les autres navigateurs ont bloqué la possibilité de pouvoir lire des fichiers sur le disque de l'utilisateur. La page peut également être lancé sous Chrome si on lance Google Chrome avec le paramétre suivant <i>chrome.exe --allow-file-access-from-files</i>. Il est également impératif de lancer la page index.html au même niveau que le fichier <strong>autoload.json</strong>. Sinon, la page web ne pourra pas chargé les tables de hachages présent dans le fichier d'autoload.</p>
 		<hr>
 		<h3 style="color:#73AA24">Script python</h3>
-	    <p>Le script python se nomme "hashtable.py" il permet de pouvoir générer les différentes table de hachage dans un fichier en format json. Ces fichiers json seront utilisé par la page web. Le script python va prendre les fichiers <i>.txt</i> contenu dans un dossier pour générer les tables de hachage. Notre script peut être executé avec différents paramètres : </p>
+	    <p>Le script python se nomme "hashtable.py" il permet de pouvoir générer les différentes table de hachage dans un fichier en format json. Ces fichiers json seront utilisé par la page web. Le script python va prendre les fichiers <i>.txt</i> contenu dans un dossier pour générer les tables de hachage. Ces tables de hachages seront exportés au format json dans un dossier. Le script créé également un fichier json d'autoload permettant à la page web de charger les tables de hachages dynamiquement. Notre script peut être executé avec différents paramètres : </p>
 		<ul>
 			<li>Le première paramètre corresponds au chemin du dossier source. Le script va lire tous les fichiers <i>.txt</i> du dossier afin de générer les tables de hachages.</li>
 			<li>Le deuxième paramètre corresponds au chemin du dossier de destination. C'est ici que seront exportés les tables de hachages au format json.</li>

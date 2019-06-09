@@ -156,6 +156,10 @@ if __name__ == "__main__":
 
     deleteFolder(exportFolderPath)
 
+    #Fichier Json d'autoload
+    autoload = {}
+    autoload["lang"] = []
+
     languages = os.listdir(sourcePath)#On récupère la liste des fichiers du dossier
     for i in range(len(languages)):
         langName = os.path.splitext(languages[i])[0]#On recupére le nom du fichier sans l'extension
@@ -168,7 +172,12 @@ if __name__ == "__main__":
             h.generateHashTable(dictPath)
             h.exportHashTable(exportFolderPath)
             print("export finished for " + langName)
+
+            autoload["lang"].append([langName, exportFolderPath + "/" + langName + ".json"])#Ajout de la langue et du chemin au fichier json 
         else :
             print(usage)
             sys.exit(-1)
 
+    #Creation du fichier json d'autoload
+    with io.open("autoload.json", 'w', encoding='utf8') as outfile:
+            json.dump(autoload, outfile, ensure_ascii=False)

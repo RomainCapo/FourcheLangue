@@ -6,8 +6,8 @@
 * Projet cours d'algorithme
 */
 
-// Tableau deux dimensions contenant la langue comme et le chemin de la table de hachage correspondante
-let hashFilePaths = [['french', 'hash/french.json'], ['english','hash/english.json'], ['deutsch','hash/deutsch.json'], ['italiano', 'hash/italiano.json'], ['espanol', 'hash/espanol.json'], ['dansk', 'hash/dansk.json'], ['norsk', 'hash/norsk.json']];
+//On récupére le contenu du fichier d'autoload contenant le nom des langues et le chemin jusqu'au table de hachage json
+let hashFilePaths = JSON.parse(JsonReader.readJsonFile("autoload.json"))["lang"];
 
 // Déclarations de variables globales
 let hashtables = [];
@@ -76,12 +76,31 @@ function getContent() {
 }
 
 /**
+ * Permet d'indiquer si une image existe ou non
+ * @param  {string} imageSrc chemin de l'image
+ * @param  {function} good     callback en cas de réussite
+ * @param  {function} bad      callback en cas d'erreur
+ */
+function checkImage(imageSrc, good, bad) {
+    var img = new Image();
+    img.onload = good;
+    img.onerror = bad;
+    img.src = imageSrc;
+}
+
+/**
 * Fonction qui prend en paramètre une langue pour mettre à jour le drapeau
 * @param  {String} language : drapeau qui doit être chargé
 */
 function changeImg(language) {
 	document.getElementById("language_infos").style.visibility = "visible"; // On affiche le texte
-	document.getElementById("img_lang").src="flags/" + language + ".png"; // on ajoute dynamiquement le lien de l'image selon le paramètre
+
+  let img = "flags/" + language + ".png";//chemin de l'image en fonction de la langue
+  checkImage(img, function(){
+    document.getElementById("img_lang").src = img;// on ajoute dynamiquement le lien de l'image selon le paramètre
+   }, function(){
+     console.error("The flag doesnt exist !");
+   });
 }
 
 /**
@@ -111,7 +130,7 @@ function displayPercentage(key, lang, array) {
 
 	let percentage = ((value/length)*100).toFixed(2); // on calcule le pourcentage entre le nombre de mots de la langue et le nombre de mots totaux
 
-	document.getElementById("pourcentage").innerHTML = "Percentage that the detected language is correct : <strong>" + percentage + "%</strong>.";
+	document.getElementById("pourcentage").innerHTML = "Correct word percentage  : <strong>" + percentage + "%</strong>.";
 }
 
 /**
@@ -245,7 +264,7 @@ function findErrorForLang(lang, values_list) {
 function colorText(error_array, values_list) {
 
 	// Ajout d'espace pour contrer le fait qu'il surligne un  mot faux dans un mot plus grand qui contiendrait le mot faux
-	error_array = error_array.map(function(e) { return e + " " })
+	error_array = error_array.map(function(e) { return  e + " " })
 
 	highlighter.highlightWithinTextarea('destroy');
 	highlighter.highlightWithinTextarea({
