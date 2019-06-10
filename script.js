@@ -258,15 +258,36 @@ function findErrorForLang(lang, values_list) {
 }
 
 /**
+ * Crée une expression régulière avec tous les mots non reconnu pour l'highlighter de jQuery
+ * @param  {array} error_array mot non reconnu
+ * @return {RegExp}             expression régulière contenant tout les mots non reconnu
+ */
+function generateHighliterRegex(error_array){
+  let regex = "";
+  for(let i = 0; i < error_array.length; i++){
+    if(i == error_array.length - 1){
+      regex+="\\b" + error_array[i] + "\\b";
+    }else{
+      regex+="\\b" + error_array[i] + "\\b|";
+    }
+  }
+  return new RegExp(regex, "g");
+}
+
+/**
 * Fonction qui a pour but de colorer les mots contenu dans un tableau
 * @param  {array} error_array : tableau des mots faux
 */
 function colorText(error_array, values_list) {
 
-	// Ajout d'espace pour contrer le fait qu'il surligne un  mot faux dans un mot plus grand qui contiendrait le mot faux
-	error_array = error_array.map(function(e) { return  e + " " })
+  //Si le tableau n'est pas vide on génére l'expression régulière a partir du tableau de mot incorects
+  if(error_array.length != 0){
+     error_array = generateHighliterRegex(error_array);
+  }
 
 	highlighter.highlightWithinTextarea('destroy');
+
+  //Coloration des mot en rouge sur le textarea
 	highlighter.highlightWithinTextarea({
 		highlight: error_array,
 		className: 'red'
