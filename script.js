@@ -259,17 +259,17 @@ function findErrorForLang(lang, values_list) {
 
 /**
  * Crée une expression régulière avec tous les mots non reconnu pour l'highlighter de jQuery
+ * L'expression recherche tous les mots et non les préfixes des mots
  * @param  {array} error_array mot non reconnu
  * @return {RegExp}             expression régulière contenant tout les mots non reconnu
  */
 function generateHighliterRegex(error_array){
   let regex = "";
   for(let i = 0; i < error_array.length; i++){
-    if(i == error_array.length - 1){
-      regex+="\\b" + error_array[i] + "\\b";
-    }else{
-      regex+="\\b" + error_array[i] + "\\b|";
-    }
+    regex+="\\b" + error_array[i] + "\\b";
+
+    //si ce n'est pas le denier mot on doit placer le caractère |
+    (i != error_array.length - 1) ? regex+="|":"";
   }
   return new RegExp(regex, "g");
 }
@@ -284,6 +284,7 @@ function colorText(error_array, values_list) {
   if(error_array.length != 0){
      error_array = generateHighliterRegex(error_array);
   }
+  console.log(error_array);
 
 	highlighter.highlightWithinTextarea('destroy');
 
