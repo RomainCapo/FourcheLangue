@@ -40,6 +40,20 @@ class HashTable{
   }
 
 /**
+ * Permet d'ajouter un mot dans la table de hachage si il n'y est pas déjà
+ * @param {string} word mot à ajouter
+ */
+  addWord(word){
+    if(this.wordInHashTable(word)){
+      return false;
+    }else{
+      let hash = this.fn(word);
+      this.hashtable[hash].push(word);
+      return true;
+    }
+  }
+
+/**
  * fonction de hachage
  * @param  {String}   string mot a passer dans la fonction de hachage
  * @return {Integer}        hash du mot passé en parametre
