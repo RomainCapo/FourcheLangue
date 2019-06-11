@@ -155,6 +155,8 @@ function findLang(values_list) {
 	chooseLang(lang, values_list);
 }
 
+  let key = "";
+
 /**
 * Fonction qui décide selon le tableau quelle est la langue
 * @param  {array} lang : tableau de langues et leur valeur
@@ -162,24 +164,49 @@ function findLang(values_list) {
 */
 function chooseLang(lang, values_list) {
 	let lang_array = lang
-	let key = Object.keys(lang).reduce(function(a, b){ return lang[a] > lang[b] ? a : b }); // retourne la clé qui contient la plus grande valeur
+	key = Object.keys(lang).reduce(function(a, b){ return lang[a] > lang[b] ? a : b }); // retourne la clé qui contient la plus grande valeur
 	if(lang[key] >= 4) { // à partir de 4 mots dans une langue on commence à détecter
 		document.getElementById('display_warning').innerHTML = "";
 		changeImg(key); // changement du drapeau
 		findErrorForLang(key, values_list); // on trouve les erreurs
 		displayPercentage(key, lang_array, values_list); // on affiche le pourcentage
 		keyLang = key;
+
+    document.getElementById('add_word_div').style.visibility = "visible";
+
 	} else { // si moins de mots
 		removeImg(); // on retire l'image, le pourcentage et on vide le tableau à colorer
 		removePercentage();
 		colorText([]);
-		document.getElementById('display_warning').innerHTML = "<i>The language is not yet detected... you need to write more words !</i>"
-		addPercentageForallLang(lang, values_list);
+		document.getElementById('display_warning').innerHTML = "<i>The language is not yet detected... you need to write more words !</i>";
+		addPercentageForAllLang(lang, values_list);
+
+    document.getElementById("add_word_div").style.visibility = "hidden";
 	}
 }
 
+/**
+ * Permet d'ajouter un mot dans la table de hachage
+ * Si le mot est déjà présent on affiche un message
+ * Sinon on met à jour l'highlighter
+ */
+function addWord(){
+  let word = document.getElementById("add_word_text").value.toLowerCase();
+  document.getElementById("add_word_text").value = "";
 
-function addPercentageForallLang(lang, values_list) {
+  if(hashtables[key].addWord(word)){
+    getContent();
+  }else{
+    alert("The word is already in the hashtable");
+  }
+}
+
+/**
+ * Permet d'ajouter les pourcentages sur les langues détéctés
+ * @param  {array} lang : tableau de langues et leur valeur
+ * @param  {array} values_list : tableau des mots du textarea
+ */
+function addPercentageForAllLang(lang, values_list) {
 
 	lang = sortProperties(lang, true);
 	let total = 0;
@@ -210,10 +237,9 @@ function addPercentageForallLang(lang, values_list) {
 	document.getElementById('pourcentage').innerHTML = text;
 }
 
-
-// Cette fonction vient de : https://gist.github.com/umidjons/9614157
 /**
  * Sort object properties (only own properties will be sorted).
+ * Cette fonction vient de : https://gist.github.com/umidjons/9614157
  * @param {object} obj object to sort properties
  * @param {bool} isNumericSort true - sort object properties as numeric value, false - sort as string value.
  * @returns {Array} array of items in [[key,value],[key,value],...] format.
@@ -284,8 +310,6 @@ function colorText(error_array, values_list) {
   if(error_array.length != 0){
      error_array = generateHighliterRegex(error_array);
   }
-  console.log(error_array);
-
 	highlighter.highlightWithinTextarea('destroy');
 
   //Coloration des mot en rouge sur le textarea
