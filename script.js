@@ -202,14 +202,19 @@ function chooseLang(lang, values_list) {
  * Sinon on met à jour l'highlighter
  */
 function addWord(){
-  let word = document.getElementById("add_word_text").value.toLowerCase();
-  document.getElementById("add_word_text").value = "";
-
-  if(hashtables[key].addWord(word)){
-    getContent();
-  }else{
-    alert("The word is already in the hashtable");
-  }
+	let word = document.getElementById("add_word_text").value.toLowerCase();
+	word = word.split(" "); // on split pour prendre seulement le premier mot
+	document.getElementById("add_word_text").value = "";
+	
+	if(word.length > 1) {
+		alert("Please enter only one word !");
+	} else {
+		if(hashtables[key].addWord(word[0])){
+			getContent();
+		}else{
+			alert("The word is already in the hashtable");
+		}
+	}
 }
 
 /**
