@@ -12,3 +12,8 @@
 #add_word_div{
 	visibility: hidden;
 }
+
+.btn-success{
+	background-color: #73AA24;
+	border-color: #73AA24;
+}

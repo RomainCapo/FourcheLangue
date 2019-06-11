@@ -6,28 +6,41 @@
 * Projet cours d'algorithme
 */
 
-//On récupére le contenu du fichier d'autoload contenant le nom des langues et le chemin jusqu'au table de hachage json
-let hashFilePaths = JSON.parse(JsonReader.readJsonFile("autoload.json"))["lang"];
+//Contient à l'initialisation les différentes tables de hachages
+let hashFilePaths;
 
 // Déclarations de variables globales
 let hashtables = [];
 let lang = [];
 let keyLang = "";
-
-// Ajout d'un objet HashTable en passant en paramètre le chemin, et une mise à 0 à l'indice de la langue dans le tableau.
-hashFilePaths.forEach(function(e){
-  hashtables[e[0]] = new HashTable(e[1]);
-  lang[e[0]] = 0;
-});
+let key = "";
 
 /**
 * Fonction d'initialisation lors du chargement du body
 */
 function init() {
-	document.getElementById("language_infos").style.visibility = "hidden"; // on cache l'affichage de la langue
-	document.getElementById("content_textarea").focus(); // focus sur le textarea
+  let isFirefox = typeof InstallTrigger !== 'undefined';
 
-	displayInfosHashtables();
+  //Si le navigateur est Firefox on execute le script normalement, sinon on affiche un message d'erreur
+  if(isFirefox){
+    //On récupére le contenu du fichier d'autoload contenant le nom des langues et le chemin jusqu'au table de hachage json
+    hashFilePaths = JSON.parse(JsonReader.readJsonFile("autoload.json"))["lang"];
+
+    // Ajout d'un objet HashTable en passant en paramètre le chemin, et une mise à 0 à l'indice de la langue dans le tableau.
+    hashFilePaths.forEach(function(e){
+      hashtables[e[0]] = new HashTable(e[1]);
+      lang[e[0]] = 0;
+    });
+
+    document.getElementById("language_infos").style.visibility = "hidden"; // on cache l'affichage de la langue
+    document.getElementById("content_textarea").focus(); // focus sur le textarea
+
+    displayInfosHashtables();
+  }else{
+    document.getElementById("body").innerHTML = "<div class='container'><h1>Sorry ! The application works only in Firefox browser !</h1></div>";
+  }
+
+
 }
 
 /**
@@ -154,8 +167,6 @@ function findLang(values_list) {
 
 	chooseLang(lang, values_list);
 }
-
-  let key = "";
 
 /**
 * Fonction qui décide selon le tableau quelle est la langue

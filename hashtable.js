@@ -91,7 +91,7 @@ class HashTable{
    * @return {Float} temps moyen d'accès de la table de hachage en ms
    */
   getAverageAcessTime(){
-    let words = this.drawRandomWord(50000);
+    let words = this.drawRandomWord(20000);
     let totalTime = 0;
     words.forEach((e) =>{
       let t0 = performance.now();
