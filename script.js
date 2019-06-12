@@ -6,6 +6,14 @@
 * Projet cours d'algorithme
 */
 
+let auto = new AutocompleteTree();
+auto.addWord('there')
+auto.addWord('this')
+auto.addWord('tree')
+auto.addWord('fes')
+console.log(JSON.stringify(auto.getSubTree("th")));
+//console.log("th".substring(2) == "");
+
 //Contient à l'initialisation les différentes tables de hachages
 let hashFilePaths;
 
@@ -205,7 +213,7 @@ function addWord(){
 	let word = document.getElementById("add_word_text").value.toLowerCase();
 	word = word.split(" "); // on split pour prendre seulement le premier mot
 	document.getElementById("add_word_text").value = "";
-	
+
 	if(word.length > 1) {
 		alert("Please enter only one word !");
 	} else {
