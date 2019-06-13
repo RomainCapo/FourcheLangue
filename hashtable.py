@@ -11,6 +11,8 @@ import shutil
 import json
 import io
 import sys
+import random
+import time
 
 class HashTable:
     """
@@ -56,32 +58,73 @@ class HashTable:
         """
         self.hashtable = [[] for x in range(self.length)]
 
+    def _getWordsFromFile(self):
+        """
+        Permet de récupérer tous les mots du fichier texte de la table de hachage
+
+        return -- liste de tous les mots du fichier
+        """
+
+        f =  io.open(self.filename, 'r', encoding='utf8')
+        reader = f.read().splitlines()
+        return reader
+
     def generateHashTable(self, filename):
         """
         Genère la table de haschage a partir d'un fichier txt
 
         filename -- chemin du fichier
         """
-        f =  io.open(filename, 'r', encoding='utf8')
-        reader = f.read().splitlines()
-        self.length = len(reader) * 2
+        self.filename = filename
+        reader = self._getWordsFromFile()# On récupère tous les mots du fichier
+        self.length = len(reader) * 2# On calcule la taille de la table de hachage pour une table ouverte cela corresponds à 2 fois le nombre d'élément à inserer dans la table
         self._initList()
 
         self.hasList = [0 for x in range(self.length)]
 
         for word in reader:
-            hash = self.fn(word)
-            self.hashtable[hash].append(word)
+            if word != "":
+                hash = self.fn(word)
+                self.hashtable[hash].append(word)
 
-            #Calcule des collisions
-            if len(self.hashtable[hash]) > 1:
-                self.nbCollision +=1
+                # Si il y a deja un élément dans la liste c'est qu'il y a une collision
+                if len(self.hashtable[hash]) > 1:
+                    self.nbCollision +=1
 
-            #Calcule du taux de remplissage
-            self.hasList[hash] = 1            
+                # On indique les listes non vide par un 1
+                # Permettera de calculer le taux de remplissage
+                self.hasList[hash] = 1            
         
-        nbList = self.hasList.count(1)
-        self.fillingRate = float("%.2f" % ((nbList / self.length) * 100))
+        nbList = self.hasList.count(1)# On compte le nombre de liste avec un 1
+        self.fillingRate = float("%.2f" % ((nbList / self.length) * 100))# Calcule du taux de remplissage de la table a partir des listes pleine et non pleine
+
+    def _getAverageAccessTime(self, n):
+        """
+        Calcule le temps d'accès moyen aux éléments de la table de hachage
+
+        n -- nombre de mot utilisé pour le calcule de la moyenne
+        return -- temps moyen d'accès à un élément de la table de hachage en nanoseconde
+        """
+
+        n = n % (self.length - 1) # Cette opération est nécessaire au cas ou le nombre de mot a calculer est plus grand que la longeur de la table de hachage
+        reader = self._getWordsFromFile()
+        sample = random.choices(reader, k=n)# Parmis les mots de la table on en choisi n
+
+        totalTime = 0
+        for sampleWord in sample:
+            startTime = time.time_ns()
+
+            hash = self.fn(sampleWord)
+            listWord = self.hashtable[hash]
+            
+            # On cherche le mot dans la liste de mot correspondant à un hash
+            # Des que le mot est trouvé on quitte la boucle
+            for word in listWord:
+                if word == sampleWord:
+                    break
+            totalTime += time.time_ns() - startTime #On ajoute le temps de la recherche au temps total
+        
+        return totalTime / n
 
 
     def exportHashTable(self, folder):
@@ -90,9 +133,10 @@ class HashTable:
 
         folder -- nom du dossier de destination du fichier json
         """
-        out = {}
+        out = {} #Création du json
         out["hashtable"] = []
 
+        #Ajout des mots dans le fichier json
         for listWord in self.hashtable:
             out["hashtable"].append(listWord)
 
@@ -100,9 +144,14 @@ class HashTable:
         out['nbCollision'] = self.nbCollision
         out['fillingRate'] = self.fillingRate
 
+        numberOfWord = 50000
+        out['avgAccessTime'] = self._getAverageAccessTime(numberOfWord) #On calcule le temps d'accès moyen pour 50'000 mots
+
+        # Si le dossier existe pas on le cree
         if not os.path.exists(folder):
             os.makedirs(folder)
 
+        # Ecriture du fichier json
         with io.open(folder + "/" + self.lang + ".json", 'w', encoding='utf8') as outfile:
             json.dump(out, outfile, ensure_ascii=False)
 

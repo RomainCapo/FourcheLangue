@@ -2,7 +2,7 @@
 * Romain Capocasale
 * Vincent Moulin
 * He-Arc - INF2dlm-A
-* 2018-2019
+* 13.06.2019
 * Projet cours d'algorithme
 */
 
@@ -18,8 +18,10 @@ class HashTable{
     this.json = JSON.parse(JsonReader.readJsonFile(path));
     this.hashtable = this.json.hashtable;
     this.hashTableLength = parseInt(this.json.length);
+    this.numberWords = this.hashTableLength / 2;// la taille de la taille de hachage correponds à 2 fois le nombre de mot
     this.nbCollision = parseInt(this.json.nbCollision);
     this.fillingRate = parseFloat(this.json.fillingRate);
+    this.avgAccessTime = parseFloat(this.json.avgAccessTime) / 1000; // temps en nanoseconde on divise par 1000 pour avoir des microsecondes
   }
 
   /**
@@ -41,7 +43,7 @@ class HashTable{
 
 /**
  * Permet d'ajouter un mot dans la table de hachage si il n'y est pas déjà
- * @param {string} word mot à ajouter
+ * @param {String} word mot à ajouter
  */
   addWord(word){
     if(this.wordInHashTable(word)){
@@ -49,6 +51,7 @@ class HashTable{
     }else{
       let hash = this.fn(word);
       this.hashtable[hash].push(word);
+      this.numberWords++;
       return true;
     }
   }
@@ -65,41 +68,5 @@ class HashTable{
       hash += Math.pow(string.charCodeAt(i), c) * (i+1);
     }
     return hash % this.hashTableLength;
-  }
-
-  /**
-   * Tire un certains nombres de mot de la table de hachage de maniere aléatoire
-   * @param  {Integer} nbWord nombre de mot a tirer
-   * @return {Array}        retourne un tableau avec le nombre de mot demandé
-   */
-  drawRandomWord(nbWord){
-    let words = []
-    while(words.length <= nbWord){
-      let random = Math.floor((Math.random() * this.hashTableLength));
-      //console.log(random);
-      if(this.hashtable[random].length > 0){
-        this.hashtable[random].forEach(function(e){
-          words.push(e);
-        });
-      }
-    }
-    return words;
-  }
-
-  /**
-   * Calcule le temps d'accè moyen pour une table de hachage
-   * @return {Float} temps moyen d'accès de la table de hachage en ms
-   */
-  getAverageAcessTime(){
-    let words = this.drawRandomWord(20000);
-    let totalTime = 0;
-    words.forEach((e) =>{
-      let t0 = performance.now();
-      let hash = this.fn(e);
-      this.hashtable[hash];
-      let t1 = performance.now();
-      totalTime += (t1 - t0);
-    }, this);
-    return totalTime / words.length;
   }
 }

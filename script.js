@@ -2,18 +2,20 @@
 * Romain Capocasale
 * Vincent Moulin
 * He-Arc - INF2dlm-A
-* 2018-2019
+* 13.06.2019
 * Projet cours d'algorithme
 */
 
-//Contient à l'initialisation les différentes tables de hachages
+//Contiendra à l'initialisation le nom des tables de hachages et leurs chemins
 let hashFilePaths;
 
 // Déclarations de variables globales
-let hashtables = [];
-let lang = [];
-let keyLang = "";
-let key = "";
+let hashtables = [];//contient les tables de hachages
+let lang = [];// contient la langue avec le nombre de mot détécter dans cette langue
+let key = ""; //langue dans laquel le système à detecter le texte
+
+// Correponds à l'highlighter sur le textearea
+let highlighter = $('#content_textarea');
 
 /**
 * Fonction d'initialisation lors du chargement du body
@@ -51,14 +53,16 @@ function displayInfosHashtables() {
 	// Itération sur chacune des langues du tableau
 	for(let key_lang in lang) {
 		// Récupération des informations dans des variables
-		let numberWords = hashtables[key_lang].hashTableLength;
-		let accessTime = 1000*hashtables[key_lang].getAverageAcessTime(); // *1000 pour avoir en micro secondes
+		let hashTableLength = hashtables[key_lang].hashTableLength;
+		let numberWords = hashtables[key_lang].numberWords;
+		let accessTime = hashtables[key_lang].avgAccessTime;
 		let nbCollisions =  hashtables[key_lang].nbCollision;
 		let fillingRateHashTables = hashtables[key_lang].fillingRate;
 		let text = "";
 
 		// Concaténation des infos dans du html
 		text += "Number of words : " + numberWords + "<br>";
+    text += "Length of the hashtable : " + hashTableLength + "<br>";
 		text += "Average time access : " + accessTime.toFixed(3) + " microseconds<br>";
 		text += "Number of collisions : " + nbCollisions + "<br>";
 		text += "Filling rate of the HashTable : " + fillingRateHashTables + "%<br>";
@@ -90,9 +94,9 @@ function getContent() {
 
 /**
  * Permet d'indiquer si une image existe ou non
- * @param  {string} imageSrc chemin de l'image
- * @param  {function} good     callback en cas de réussite
- * @param  {function} bad      callback en cas d'erreur
+ * @param  {String} imageSrc chemin de l'image
+ * @param  {Function} good     callback en cas de réussite
+ * @param  {Function} bad      callback en cas d'erreur
  */
 function checkImage(imageSrc, good, bad) {
     var img = new Image();
@@ -133,8 +137,8 @@ function removePercentage() {
 /**
 * Fonction qui affiche le pourcentage de justesse de détection de la langue
 * @param  {String} key : clé de la langue détectée
-* @param  {array} lang : tableau des langues et leur valeur
-* @param  {array} array : tableau des mots du textarea
+* @param  {Array} lang : tableau des langues et leur valeur
+* @param  {Array} array : tableau des mots du textarea
 */
 function displayPercentage(key, lang, array) {
 
@@ -148,7 +152,7 @@ function displayPercentage(key, lang, array) {
 
 /**
 * Fonction qui trouve la langue
-* @param  {array} values_list : tableau des mots du texarea
+* @param  {Array} values_list : tableau des mots du texarea
 */
 function findLang(values_list) {
 	for (let key in lang) {
@@ -170,8 +174,8 @@ function findLang(values_list) {
 
 /**
 * Fonction qui décide selon le tableau quelle est la langue
-* @param  {array} lang : tableau de langues et leur valeur
-* @param  {array} values_list : tableau des mots du textarea
+* @param  {Array} lang : tableau de langues et du nombre de mot détécté
+* @param  {Array} values_list : tableau des mots du textarea
 */
 function chooseLang(lang, values_list) {
 	let lang_array = lang
@@ -181,7 +185,6 @@ function chooseLang(lang, values_list) {
 		changeImg(key); // changement du drapeau
 		findErrorForLang(key, values_list); // on trouve les erreurs
 		displayPercentage(key, lang_array, values_list); // on affiche le pourcentage
-		keyLang = key;
 
     document.getElementById('add_word_div').style.visibility = "visible";
 
@@ -199,18 +202,21 @@ function chooseLang(lang, values_list) {
 /**
  * Permet d'ajouter un mot dans la table de hachage
  * Si le mot est déjà présent on affiche un message
- * Sinon on met à jour l'highlighter
+ * Sinon on met à jour l'highlighter et les infos de la table
  */
 function addWord(){
 	let word = document.getElementById("add_word_text").value.toLowerCase();
 	word = word.split(" "); // on split pour prendre seulement le premier mot
 	document.getElementById("add_word_text").value = "";
-	
-	if(word.length > 1) {
-		alert("Please enter only one word !");
+  console.log(word);
+
+  //On verifie qu'il y a qu'un seul mot et qu'il n'est pas vide
+	if(word.length > 1 || word[0] == "") {
+		alert("Please enter a correct word !");
 	} else {
 		if(hashtables[key].addWord(word[0])){
 			getContent();
+      displayInfosHashtables();
 		}else{
 			alert("The word is already in the hashtable");
 		}
@@ -219,8 +225,8 @@ function addWord(){
 
 /**
  * Permet d'ajouter les pourcentages sur les langues détéctés
- * @param  {array} lang : tableau de langues et leur valeur
- * @param  {array} values_list : tableau des mots du textarea
+ * @param  {Array} lang : tableau de langues et leur valeur
+ * @param  {Array} values_list : tableau des mots du textarea
  */
 function addPercentageForAllLang(lang, values_list) {
 
@@ -230,7 +236,6 @@ function addPercentageForAllLang(lang, values_list) {
 	for (let i = 0; i < lang.length; i++) {
 	  total += lang[i][1];
 	}
-
 	let text = "";
 
 	if(values_list == null) {
@@ -245,20 +250,17 @@ function addPercentageForAllLang(lang, values_list) {
 		  		text += "<li>" + lang[i][0].charAt(0).toUpperCase() + lang[i][0].slice(1) + " : <strong>" + (lang[i][1]*(100/total)).toFixed(2) + "%</strong></li>";
 		  	}
 		}
-
 		text += "</ul>";
 	}
-
-
 	document.getElementById('pourcentage').innerHTML = text;
 }
 
 /**
- * Sort object properties (only own properties will be sorted).
+ * Trie les propriétés d'un objet (only own properties will be sorted).
  * Cette fonction vient de : https://gist.github.com/umidjons/9614157
- * @param {object} obj object to sort properties
- * @param {bool} isNumericSort true - sort object properties as numeric value, false - sort as string value.
- * @returns {Array} array of items in [[key,value],[key,value],...] format.
+ * @param {Object} obj objet avec les propriétés à trier
+ * @param {Boolean} isNumericSort true - trie comme des valeurs numérique, false - trie comem des valeurs string
+ * @returns {Array} tableu d'élément avec [[key,value],[key,value],...]
  */
 function sortProperties(obj, isNumericSort)
 {
@@ -279,13 +281,13 @@ function sortProperties(obj, isNumericSort)
 				y=b[1].toLowerCase();
 			return x<y ? -1 : x>y ? 1 : 0;
 		});
-	return sortable; // array in format [ [ key1, val1 ], [ key2, val2 ], ... ]
+	return sortable;
 }
 
 /**
 * Fonction qui cherche erreurs dans le text selon un langue donnée en paramètre
-* @param  {array} lang : tableau de slngues et leur valeur
-* @param  {array} values_list : tableau de smots du textarea
+* @param  {Array} lang : tableau des langues et leur valeur
+* @param  {Array} values_list : tableau de smots du textarea
 */
 function findErrorForLang(lang, values_list) {
 
@@ -302,7 +304,7 @@ function findErrorForLang(lang, values_list) {
 /**
  * Crée une expression régulière avec tous les mots non reconnu pour l'highlighter de jQuery
  * L'expression recherche tous les mots et non les préfixes des mots
- * @param  {array} error_array mot non reconnu
+ * @param  {Array} error_array mot non reconnu
  * @return {RegExp}             expression régulière contenant tout les mots non reconnu
  */
 function generateHighliterRegex(error_array){
@@ -318,7 +320,7 @@ function generateHighliterRegex(error_array){
 
 /**
 * Fonction qui a pour but de colorer les mots contenu dans un tableau
-* @param  {array} error_array : tableau des mots faux
+* @param  {Array} error_array : tableau des mots faux
 */
 function colorText(error_array, values_list) {
 
@@ -336,10 +338,3 @@ function colorText(error_array, values_list) {
 
 	highlighter.focus();
 }
-
-// Définition d'une variable pour l'utilisation de l'highlighter
-let highlighter = $('#content_textarea');
-highlighter.highlightWithinTextarea({
-		highlight: '',
-		className: 'red'
-});
