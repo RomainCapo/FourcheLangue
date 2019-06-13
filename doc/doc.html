@@ -33,23 +33,24 @@
 	    <p>Le script python se nomme "hashtable.py", il permet de pouvoir générer les différentes tables de hachages dans un fichier en format json. Ces fichiers json seront utilisés par la page web. Le script python va prendre les fichiers <i>.txt</i> contenu dans un dossier pour générer les tables de hachages. Ces tables de hachages seront exportées au format json dans un dossier. Le script crée également un fichier json d'autoload permettant à la page web de charger les tables de hachages dynamiquement. Notre script peut être executé avec différents paramètres : </p>
 		<ul>
 			<li>Le premier paramètre correspond au chemin du dossier source. Le script va lire tous les fichiers <i>.txt</i> du dossier afin de générer les tables de hachages.</li>
-			<li>Le deuxième paramètre corresponds au chemin du dossier de destination. C'est ici que seront exportés les tables de hachages au format json.</li>
+			<li>Le deuxième paramètre correspond au chemin du dossier de destination. C'est ici que seront exportées les tables de hachages au format json.</li>
 			<li>Si le script est executé sans aucun paramètre, le chemin du dossier source est par défaut <strong>dict</strong> et le dossier d'exportation <strong>hash</strong>.</li>
 		</ul>
-	    <p>Voici un exemple d'éxecution du script : <strong>>>python hashtable.py souce destination</strong>. Dans cet exemple, le script python va lire les fichiers <i>.txt</i> dans le dossier <i>source</i> et les tables de hachages seront exportées dans <i>export</i></p>
+	    <p>Voici un exemple d'éxecution du script : <strong>>>python hashtable.py souce export</strong>. Dans cet exemple, le script python va lire les fichiers <i>.txt</i> dans le dossier <i>source</i> et les tables de hachages seront exportées dans <i>export</i></p>
 	    <p><strong style="color:red">Attention !</strong> Le script va d'abord supprimer le dossier d'exportation, vérifiez donc à utiliser un nom de dossier qui n'existe pas encore, ou que le dossier déjà existant n'est plus utile.</p>
 	    <hr>
 	    <h3 style="color:#73AA24">Application de détection</h3>
 	    <p>Au niveau de l'application de détection, son utilisation est très simple.</p>
 	    <p>Tout d'abord nous avons un champs pour entrer du texte. Il suffit d'entrer une phrase de plusieurs mots, pour que notre algorithme détecte la langue dans laquelle la phrase est écrite. Une fois la langue détectée, un petit drapeau représentant la langue sera affiché en dessus.</p>
 		<p>On peut également voir la probabilité que le texte soit écrit dans chacune des langues.</p>
-	    <p>En dessous du drapeau, il est également affiché le pourcentage que le texte écrit soit bien dans la langue détectée.</p>
+	    <p>En dessous du textarea, il est également affiché le pourcentage que le texte écrit soit bien dans la langue détectée.</p>
 	    <p>Au niveau de la correction, les erreurs sont affichées dans le textarea. En effet, les mots n'étant pas contenus dans le dictionnaire de la langue détectée sont surlignés en rouge.</p>
 		<p>Une fois la langue détéctée, il est possible d'ajouter un mot dans le dictionnaire afin d'éviter qu'ils soient surlignés en rouge. Si le mot est déjà dans le dictionnaire, un message est affiché.</p>
 	    <p>Que sont les rectangles situés en bas ? Ce sont des informations relatives aux différents dictionnaires que nous utilisons. Ces données sont :</p>
 	    <ul>
 	    	<li>Number of words : correspond au nombre de mots présents dans le dictionnaire</li>
-	    	<li>Average time access : le temps d'accès moyen à un mot dans la table</li>
+	    	<li>Length of the hashtable : correspond à la taille de notre table de hachage</li>
+			<li>Average time access : le temps d'accès moyen à un mot dans la table</li>
 	    	<li>Number of collisions : le nombre de collisions présentes dans la table de hachage</li>
 	    	<li>Filling rate of the HashTable : le taux de remplissage de notre table de hachage</li>
 	    </ul>
