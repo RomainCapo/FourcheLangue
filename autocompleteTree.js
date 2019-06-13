@@ -16,17 +16,22 @@ class AutocompleteTree{
     return [contain, indice];
   }
 
-  getSubTree(string, children=this.root.children ){
-    let res = this.treeChildrenContain(children, string[0])
+  getSubTreeRec(string, children=this.root.children ){
+    let contain = this.treeChildrenContain(children, string[0])
     if(string == ""){
       return children;
     }
 
-    if(!res[0]){
+    if(!contain[0]){
       return -1;
     }else{
-      return this.getSubTree(string.substring(1), children[res[1]].children)
+      return this.getSubTreeRec(string.substring(1), children[contain[1]].children)
     }
+  }
+
+  test(substring){
+    let subtree = this.getSubTreeRec(substring);
+    console.log(JSON.stringify(this.root));
   }
 
   addWord(word){
@@ -52,6 +57,7 @@ class AutocompleteTree{
         {
           node = new Node(word[i]);
         }
+        node.parent = currentNode.value;
         currentNode.children.push(node);
         currentNode = node;
       }

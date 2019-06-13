@@ -9,10 +9,12 @@
 let auto = new AutocompleteTree();
 auto.addWord('there')
 auto.addWord('this')
+auto.addWord('third')
+auto.addWord('these')
 auto.addWord('tree')
 auto.addWord('fes')
-console.log(JSON.stringify(auto.getSubTree("th")));
-//console.log("th".substring(2) == "");
+auto.addWord('cheval')
+JSON.stringify(auto.test("th"));
 
 //Contient à l'initialisation les différentes tables de hachages
 let hashFilePaths;
