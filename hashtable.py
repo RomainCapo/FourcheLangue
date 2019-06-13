@@ -144,9 +144,6 @@ class HashTable:
         out['nbCollision'] = self.nbCollision
         out['fillingRate'] = self.fillingRate
 
-        numberOfWord = 50000
-        out['avgAccessTime'] = self._getAverageAccessTime(numberOfWord) #On calcule le temps d'accès moyen pour 50'000 mots
-
         # Si le dossier existe pas on le cree
         if not os.path.exists(folder):
             os.makedirs(folder)

@@ -55,7 +55,7 @@ function displayInfosHashtables() {
 		// Récupération des informations dans des variables
 		let hashTableLength = hashtables[key_lang].hashTableLength;
 		let numberWords = hashtables[key_lang].numberWords;
-		let accessTime = hashtables[key_lang].avgAccessTime;
+    let avgAccessTime = hashtables[key_lang].getAverageAcessTime() *1000; //*1000 pour avoir le temps en microseconde
 		let nbCollisions =  hashtables[key_lang].nbCollision;
 		let fillingRateHashTables = hashtables[key_lang].fillingRate;
 		let text = "";
@@ -63,9 +63,9 @@ function displayInfosHashtables() {
 		// Concaténation des infos dans du html
 		text += "Number of words : " + numberWords + "<br>";
     text += "Length of the hashtable : " + hashTableLength + "<br>";
-		text += "Average time access : " + accessTime.toFixed(3) + " microseconds<br>";
 		text += "Number of collisions : " + nbCollisions + "<br>";
 		text += "Filling rate of the HashTable : " + fillingRateHashTables + "%<br>";
+    text += "Average time access : " + avgAccessTime.toFixed(3) + " microseconds<br>";
 
 		// Affichage des données dans les différents id présents dans index.html
 		document.getElementById(key_lang).innerHTML = text;
